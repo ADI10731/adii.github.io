@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCET 2026 Rank Predictor Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --accent: #0984e3;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Shapes */
+        .background-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        .shape1 { width: 300px; height: 300px; top: -50px; left: -50px; }
+        .shape2 { width: 200px; height: 200px; bottom: 50px; right: -50px; animation-delay: 2s; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transform: scale(0.95);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0;
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-left: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: #f9f9f9;
+        }
+
+        input:focus {
+            border-color: #764ba2;
+            background: white;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .converter-arrow {
+            text-align: center;
+            color: #b2bec3;
+            font-size: 1.5rem;
+            margin: -15px 0 10px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-5px);}
+            60% {transform: translateY(-3px);}
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(118, 75, 162, 0.4);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Result Card Styles */
+        #result-card {
+            display: none;
+            margin-top: 2.5rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            padding: 2rem 1.5rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shine effect on result header */
+        .result-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
+        }
+
+        .result-body {
+            padding: 1.5rem;
+            background: #ffffff;
+            border-top: 4px solid rgba(0,0,0,0.05);
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: #636e72;
+        }
+
+        .metric span:last-child {
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .metric.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        .metric.total span:last-child {
+            color: #764ba2;
+            font-size: 1.3rem;
+        }
+
+        .benchmark {
+            margin-top: 1.2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+            border-left: 4px solid #764ba2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-shape shape1"></div>
+    <div class="background-shape shape2"></div>
+
+    <div class="container">
+        <h2>DCET Rank Predictor</h2>
+        <p class="subtitle">Next-Gen Prediction By ADITHYA • C-20 Scheme Ready</p>
+
+        <div class="input-group">
+            <label>Diploma CGPA</label>
+            <input type="number" id="cgpa" placeholder="e.g. 9.74" step="0.01" oninput="convertToPercent()">
+        </div>
+
+        <div class="converter-arrow">⇅</div>
+
+        <div class="input-group">
+            <label>Diploma Percentage (%)</label>
+            <input type="number" id="percent" placeholder="e.g. 89.90" step="0.01" oninput="convertToCgpa()">
+        </div>
+
+        <div class="input-group" style="margin-top: 30px;">
+            <label>Expected DCET Marks (Max 100)</label>
+            <input type="number" id="marks" placeholder="e.g. 85" step="1">
+        </div>
+
+        <button onclick="predict()">Predict My Rank</button>
+
+        <div id="result-card">
+            <div class="result-header" id="header-bg">
+                <div style="font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; opacity: 0.8;">Estimated Rank</div>
+                <div style="font-size: 3rem; font-weight: 800; line-height: 1;" id="rank-display">---</div>
+                <div style="font-size: 1rem; margin-top: 10px; font-weight: 600;" id="college-tag">---</div>
+            </div>
+            
+            <div class="result-body">
+                <div class="metric">
+                    <span>Diploma (50%):</span>
+                    <span id="dip-score">0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Exam (50%):</span>
+                    <span id="exam-score">0.00</span>
+                </div>
+                <div class="metric total">
+                    <span>Total Merit Score:</span>
+                    <span id="total-score">0.00</span>
+                </div>
+                <div class="benchmark" id="benchmark-text"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- 1. RANK DATA (From your uploaded CSV) ---
+    const rankRanges = [
+        { min: 91.8, rank: "Top 10", college: "🏛️ RVCE (CSE/AIML) Guaranteed" },
+        { min: 90.6, rank: "11 - 20", college: "🏛️ RVCE (Any) / BMSCE (CSE)" },
+        { min: 89.98, rank: "21 - 30", college: "🎓 RVCE / BMSCE / MSRIT" },
+        { min: 89.5, rank: "31 - 40", college: "🌟 Top 3 Colleges (CSE/ISE)" },
+        { min: 89.1, rank: "41 - 50", college: "✅ Top 3 Colleges Safe Zone" },
+        { min: 89.0, rank: "51 - 60", college: "🔥 Competitive for Top 3" },
+        { min: 88.3, rank: "61 - 70", college: "💻 BMSCE / MSRIT (CSE)" },
+        { min: 88.0, rank: "71 - 80", college: "📡 BMSCE / MSRIT (ISE)" },
+        { min: 87.8, rank: "81 - 90", college: "⚡ PES / MSRIT (ISE/EC)" },
+        { min: 87.6, rank: "91 - 100", college: "⚙️ Top 5 Colleges (Core)" },
+        { min: 86.9, rank: "100 - 125", college: "🔌 PES / BMSCE (EC)" },
+        { min: 86.2, rank: "151 - 175", college: "🏫 Top 10 Colleges" },
+        { min: 85.5, rank: "176 - 200", college: "🛡️ Safe for Tier 1 (Non-CS)" },
+        { min: 84.6, rank: "200 - 250", college: "🏙️ DSCE / BIT / UVCE" },
+        { min: 84.0, rank: "250 - 300", college: "📘 Tier 2 Best Options" },
+        { min: 82.2, rank: "400 - 450", college: "⚠️ Competitive for Top 10" },
+        { min: 79.6, rank: "500 - 750", college: "🚧 Mid-Tier Colleges" },
+        { min: 77.6, rank: "750 - 1000", college: "📍 Standard Options" },
+        { min: 0,    rank: "1000+", college: "🗺️ Explore Local Options" }
+    ];
+
+    // --- 2. C-20 SCHEME CONVERSION LOGIC ---
+    
+    // CGPA to Percentage: (CGPA * 10) - 7.5
+    function convertToPercent() {
+        let cgpa = parseFloat(document.getElementById('cgpa').value);
+        if (!isNaN(cgpa)) {
+            let percent = (cgpa * 10) - 7.5;
+            // Cap at 100 and floor at 0 just in case
+            if(percent > 100) percent = 100;
+            if(percent < 0) percent = 0;
+            document.getElementById('percent').value = percent.toFixed(2);
+        } else {
+            document.getElementById('percent').value = "";
+        }
+    }
+
+    // Percentage to CGPA: (Percentage + 7.5) / 10
+    function convertToCgpa() {
+        let percent = parseFloat(document.getElementById('percent').value);
+        if (!isNaN(percent)) {
+            let cgpa = (percent + 7.5) / 10;
+            if(cgpa > 10) cgpa = 10;
+            document.getElementById('cgpa').value = cgpa.toFixed(2);
+        } else {
+            document.getElementById('cgpa').value = "";
+        }
+    }
+
+    // --- 3. PREDICTION LOGIC ---
+    function predict() {
+        let percent = parseFloat(document.getElementById('percent').value);
+        let marks = parseFloat(document.getElementById('marks').value);
+
+        if (isNaN(percent) || isNaN(marks)) { 
+            alert("Please enter values."); 
+            return; 
+        }
+
+        if (percent > 100 || marks > 100) { alert("Values cannot exceed 100."); return; }
+
+        // Formula: 50% Dip + 50% Exam
+        let dipContribution = percent / 2;
+        let examContribution = marks / 2;
+        let totalMerit = dipContribution + examContribution;
+
+        // Find Rank from Data
+        let result = rankRanges.find(r => totalMerit >= r.min) || rankRanges[rankRanges.length - 1];
+
+        // Benchmark Logic (From PDF Data)
+        let benchmarkMsg = "";
+        if (totalMerit >= 91.5) benchmarkMsg = "🏆 <b>Incredible!</b> You are beating last year's <b>Rank 4</b> (Jashua Anish).";
+        else if (totalMerit >= 90.8) benchmarkMsg = "🚀 <b>Excellent!</b> Your score matches <b>Rank 10</b> (Darshan Raj).";
+        else if (totalMerit >= 87.9) benchmarkMsg = "✨ <b>Great Job!</b> You are outperforming <b>Rank 42</b> (Ankitha A).";
+        else if (totalMerit >= 85.0) benchmarkMsg = "👍 <b>Solid!</b> You are comparable to <b>Rank 147</b> (Krish Kumar).";
+        else benchmarkMsg = "🎯 <b>Strategy:</b> Aim for 85+ marks to crack the Top 200.";
+
+        // UI Updates
+        let card = document.getElementById('result-card');
+        let header = document.getElementById('header-bg');
+        
+        // Dynamic Gradients based on performance
+        if (totalMerit >= 89) header.style.background = "linear-gradient(135deg, #00b09b, #96c93d)"; // Green Success
+        else if (totalMerit >= 85) header.style.background = "linear-gradient(135deg, #4facfe, #00f2fe)"; // Blue High
+        else if (totalMerit >= 80) header.style.background = "linear-gradient(135deg, #f093fb, #f5576c)"; // Pink/Orange Mid
+        else header.style.background = "linear-gradient(135deg, #ff9a9e, #fecfef)"; // Red/Soft Low
+
+        document.getElementById('rank-display').innerText = result.rank;
+        document.getElementById('college-tag').innerText = result.college;
+        document.getElementById('dip-score').innerText = dipContribution.toFixed(2);
+        document.getElementById('exam-score').innerText = examContribution.toFixed(2);
+        document.getElementById('total-score').innerText = totalMerit.toFixed(2);
+        document.getElementById('benchmark-text').innerHTML = benchmarkMsg;
+
+        card.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
