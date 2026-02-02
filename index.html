@@ -3,266 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCET 2026 Ultimate Predictor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <title>DCET 2026 Rank Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f111a;
-            --card-bg: #1e212b;
-            --text-main: #ffffff;
-            --text-sec: #9ca3af;
-            --accent: #6366f1; /* Indigo */
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            color: var(--text-dark);
         }
 
+        /* Main Card Container */
         .container {
-            width: 100%;
-            max-width: 550px;
             background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative blobs */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 50%;
+            z-index: 0;
         }
 
         h1 {
             text-align: center;
+            font-weight: 800;
+            font-size: 2.2rem;
+            margin: 0;
+            background: linear-gradient(to right, #6c5ce7, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* YOUR NAME BADGE */
+        .creator-badge {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .creator-badge span {
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            background: #f1f2f6;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        input:focus {
+            outline: none;
+            background: white;
+            border-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .swap-icon {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin: -10px 0 10px 0;
+            cursor: pointer;
+            transition: transform 0.4s ease, color 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .swap-icon:hover {
+            transform: rotate(180deg) scale(1.2);
+            color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        button:hover::after { left: 100%; }
+
+        /* Rank Result Box */
+        #rank-box {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .rank-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .rank-value {
+            font-size: 3rem;
             font-weight: 900;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #818cf8, #34d399);
+            color: var(--text-dark);
+            margin: 5px 0;
+            background: linear-gradient(to right, #00b894, #00cec9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.5rem; }
-        
-        input {
-            width: 100%;
-            background: #2d313f;
-            border: 1px solid #3f4452;
-            padding: 14px;
-            border-radius: 8px;
-            color: white;
+        .merit-value {
             font-size: 1rem;
-            box-sizing: border-box;
+            color: var(--text-light);
+            background: #f1f2f6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
         }
-        input:focus { outline: none; border-color: var(--accent); }
 
-        .swap-btn {
-            text-align: center;
-            cursor: pointer;
-            color: var(--text-sec);
-            margin: -5px 0 10px 0;
-            font-size: 1.2rem;
-            transition: color 0.2s;
-        }
-        .swap-btn:hover { color: var(--accent); }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: transform 0.1s;
-        }
-        button:active { transform: scale(0.98); }
-
-        /* Rank Display */
-        #rank-box {
-            display: none;
-            margin-top: 2rem;
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 12px;
-            border: 1px solid var(--accent);
-        }
-        .rank-title { font-size: 0.9rem; letter-spacing: 1px; color: var(--text-sec); text-transform: uppercase; }
-        .rank-number { font-size: 2.5rem; font-weight: 900; color: white; margin: 5px 0; }
-        .merit-text { font-size: 0.9rem; color: var(--text-sec); }
-
-        /* College Lists */
+        /* College Grid */
         #college-section {
             display: none;
             width: 100%;
-            max-width: 1100px;
-            margin-top: 30px;
+            max-width: 1200px;
+            margin-top: 40px;
+            animation: fadeIn 1s ease;
         }
-        
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
 
-        .branch-col {
-            background: #161922;
+        .branch-column {
+            background: rgba(255, 255, 255, 0.9);
             padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
-        .branch-title {
-            font-size: 1.2rem;
+        .branch-header {
+            font-size: 1.3rem;
             font-weight: 800;
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f2f6;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 10px;
         }
 
-        /* College Cards */
+        .cse-head { color: #0984e3; }
+        .aiml-head { color: #e84393; }
+        .ec-head { color: #fdcb6e; }
+
         .college-card {
-            background: #1e212b;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-left: 4px solid #555;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-left: 5px solid #dfe6e9;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-        .college-card.safe { border-left-color: var(--success); }
-        .college-card.risk { border-left-color: var(--warning); }
-        
-        .clg-name { font-size: 0.9rem; font-weight: 500; }
-        .clg-details { text-align: right; }
-        .cutoff-badge { font-size: 0.75rem; background: #333; padding: 2px 6px; border-radius: 4px; color: #ccc; }
-        .status-text { font-size: 0.8rem; font-weight: 700; display: block; margin-top: 4px; }
 
-        /* TRAINED BY ADITHYA FOOTER */
-        .creator-footer {
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #555;
-            letter-spacing: 1px;
-            font-weight: 600;
-            opacity: 0.7;
+        .college-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
         }
+
+        .clg-name { font-weight: 600; font-size: 0.95rem; color: var(--text-dark); }
+        .clg-status { text-align: right; }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        /* Dynamic Status Colors */
+        .safe { border-left-color: #00b894; }
+        .safe .badge { background: #e3faf5; color: #00b894; }
+        
+        .borderline { border-left-color: #fdcb6e; }
+        .borderline .badge { background: #fff8e1; color: #fdcb6e; }
+
+        /* Animations */
+        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>DCET 2026 Predictor</h1>
-    <div class="input-group">
-        <label>Diploma CGPA</label>
-        <input type="number" id="cgpa" placeholder="e.g. 9.75" oninput="toPercent()">
-    </div>
-    <div class="swap-btn" title="Swap">⇅</div>
-    <div class="input-group">
-        <label>Diploma Percentage (%)</label>
-        <input type="number" id="percent" placeholder="e.g. 90.00" oninput="toCgpa()">
-    </div>
-    <div class="input-group">
-        <label>Expected DCET Marks (0-100)</label>
-        <input type="number" id="marks" placeholder="e.g. 85">
-    </div>
-    <button onclick="calculate()">PREDICT RANK</button>
-
-    <div id="rank-box">
-        <div class="rank-title">PREDICTED RANK</div>
-        <div class="rank-number" id="rank-display">---</div>
-        <div class="merit-text">Merit Score: <span id="score-display">0.00</span></div>
-    </div>
-
-    <div class="creator-footer">TRAINED BY ADITHYA 😎</div>
-</div>
-
-<div id="college-section">
-    <div class="grid-container">
-        <div class="branch-col">
-            <div class="branch-title" style="color:#60a5fa">💻 CSE / ISE</div>
-            <div id="cse-list"></div>
+    <div class="container">
+        <h1>DCET 2026 Predictor</h1>
+        
+        <div class="creator-badge">
+            <span>TRAINED BY ADITHYA 😎</span>
         </div>
-        <div class="branch-col">
-            <div class="branch-title" style="color:#f472b6">🤖 AIML / AIDS</div>
-            <div id="aiml-list"></div>
+
+        <div class="input-group">
+            <label>Diploma CGPA</label>
+            <input type="number" id="cgpa" placeholder="e.g. 9.75" step="0.01" oninput="toPercent()">
         </div>
-        <div class="branch-col">
-            <div class="branch-title" style="color:#fbbf24">📡 E & C</div>
-            <div id="ec-list"></div>
+
+        <div class="swap-icon" title="Auto-Convert">⇅</div>
+
+        <div class="input-group">
+            <label>Diploma Percentage (%)</label>
+            <input type="number" id="percent" placeholder="e.g. 90.00" step="0.01" oninput="toCgpa()">
+        </div>
+
+        <div class="input-group">
+            <label>Expected DCET Marks (Out of 100)</label>
+            <input type="number" id="marks" placeholder="e.g. 85" step="1">
+        </div>
+
+        <button onclick="predict()">PREDICT MY RANK 🚀</button>
+
+        <div id="rank-box">
+            <div class="rank-label">ESTIMATED RANK RANGE</div>
+            <div class="rank-value" id="rank-display">---</div>
+            <div class="merit-value">Merit Score: <span id="score-display">0.00</span></div>
         </div>
     </div>
-</div>
+
+    <div id="college-section">
+        <div class="grid-container">
+            <div class="branch-column">
+                <div class="branch-header cse-head">💻 CSE / ISE</div>
+                <div id="cse-list"></div>
+            </div>
+            
+            <div class="branch-column">
+                <div class="branch-header aiml-head">🤖 AIML / AIDS</div>
+                <div id="aiml-list"></div>
+            </div>
+
+            <div class="branch-column">
+                <div class="branch-header ec-head">📡 E & C</div>
+                <div id="ec-list"></div>
+            </div>
+        </div>
+    </div>
 
 <script>
-    // --- 1. REAL GM CUTOFFS (From 2025 PDF Data) ---
+    // --- 1. DATA: GM Cutoffs (Extracted from 2025 PDF) ---
+    // Using E005 (RVCE), E006 (MSRIT), E009 (PES), E001 (UVCE) etc.
     const colleges = [
-        { code: "E005", name: "RVCE Bangalore", cse: 50, aiml: 42, ec: 49 },
-        { code: "E006", name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
-        { code: "E009", name: "PES Univ (RR Campus)", cse: 255, aiml: 449, ec: 621 },
-        { code: "E001", name: "UVCE Bangalore", cse: 137, aiml: 133, ec: 212 },
-        { code: "E003", name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 63 },
-        { code: "E004", name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
-        { code: "E007", name: "Dayananda Sagar (DSCE)", cse: 852, aiml: 707, ec: 954 },
-        { code: "E008", name: "Bangalore Inst. Tech (BIT)", cse: 867, aiml: 951, ec: 1276 },
-        { code: "E126", name: "BMS Inst. Tech (BMSIT)", cse: 1708, aiml: 1945, ec: 1332 },
-        { code: "E105", name: "Nitte Meenakshi (NMIT)", cse: 1649, aiml: 1389, ec: 2371 },
-        { code: "E012", name: "Sir M Visvesvaraya (MVIT)", cse: 2073, aiml: 2708, ec: 5264 },
-        { code: "E118", name: "RNSIT Bangalore", cse: 1824, aiml: 2390, ec: 2239 },
-        { code: "E082", name: "JSSATE Bangalore", cse: 3619, aiml: 4134, ec: 2383 },
-        { code: "E097", name: "CMRIT", cse: 2974, aiml: 4194, ec: 3002 },
-        { code: "E099", name: "New Horizon (NHCE)", cse: 2133, aiml: 3917, ec: 2561 },
-        { code: "E077", name: "Vidya Vikas Mysore", cse: 4828, aiml: 6000, ec: 3514 }
+        { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
+        { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
+        { name: "PES Univ (RR Campus)", cse: 255, aiml: 449, ec: 621 },
+        { name: "UVCE Bangalore", cse: 137, aiml: 133, ec: 212 },
+        { name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 110 },
+        { name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
+        { name: "Dayananda Sagar (DSCE)", cse: 852, aiml: 707, ec: 954 },
+        { name: "Bangalore Inst. Tech (BIT)", cse: 867, aiml: 951, ec: 1276 },
+        { name: "BMS Inst. Tech (BMSIT)", cse: 1708, aiml: 1945, ec: 1332 },
+        { name: "Nitte Meenakshi (NMIT)", cse: 1649, aiml: 1389, ec: 2371 },
+        { name: "Sir MVIT", cse: 2073, aiml: 2708, ec: 5264 },
+        { name: "RNSIT Bangalore", cse: 1824, aiml: 2390, ec: 2239 },
+        { name: "JSSATE Bangalore", cse: 3619, aiml: 4134, ec: 2383 },
+        { name: "CMRIT", cse: 2974, aiml: 4194, ec: 3002 },
+        { name: "New Horizon (NHCE)", cse: 2133, aiml: 3917, ec: 2561 },
+        { name: "Vidya Vikas Mysore", cse: 4828, aiml: 6000, ec: 3514 }
     ];
 
-    // --- 2. EXACT RANK RANGES (From Your CSV) ---
+    // --- 2. DATA: Rank Ranges (From your CSV) ---
     const ranges = [
-        { min: 91.8, max: 100, label: "1 - 10" },
-        { min: 90.6, max: 91.79, label: "11 - 20" },
-        { min: 89.98, max: 90.59, label: "21 - 30" },
-        { min: 89.5, max: 89.97, label: "31 - 40" },
-        { min: 89.1, max: 89.49, label: "41 - 50" },
-        { min: 89.0, max: 89.09, label: "51 - 60" },
-        { min: 88.3, max: 88.99, label: "61 - 70" },
-        { min: 88.0, max: 88.29, label: "71 - 80" },
-        { min: 87.8, max: 87.99, label: "81 - 90" },
-        { min: 87.6, max: 87.79, label: "91 - 100" },
-        { min: 86.9, max: 87.59, label: "100 - 125" },
-        { min: 86.5, max: 86.89, label: "126 - 150" },
-        { min: 86.2, max: 86.49, label: "151 - 175" },
-        { min: 85.5, max: 86.19, label: "176 - 200" },
-        { min: 84.6, max: 85.49, label: "200 - 250" },
-        { min: 84.0, max: 84.59, label: "250 - 300" },
-        { min: 82.7, max: 83.99, label: "300 - 400" },
-        { min: 81.5, max: 82.69, label: "400 - 500" },
-        { min: 79.6, max: 81.49, label: "500 - 750" },
-        { min: 77.6, max: 79.59, label: "750 - 1000" },
-        { min: 75.6, max: 77.59, label: "1000 - 1250" },
-        { min: 72.5, max: 75.59, label: "1250 - 1750" },
-        { min: 67.9, max: 72.49, label: "1750 - 3000" },
-        { min: 60.0, max: 67.89, label: "3000 - 6000" },
-        { min: 0, max: 59.99, label: "6000+" }
+        { min: 91.8, label: "1 - 10" },
+        { min: 90.6, label: "11 - 20" },
+        { min: 89.98, label: "21 - 30" },
+        { min: 89.5, label: "31 - 40" },
+        { min: 89.1, label: "41 - 50" },
+        { min: 89.0, label: "51 - 60" },
+        { min: 88.3, label: "61 - 70" },
+        { min: 88.0, label: "71 - 80" },
+        { min: 87.8, label: "81 - 90" },
+        { min: 87.6, label: "91 - 100" },
+        { min: 86.9, label: "100 - 125" },
+        { min: 86.5, label: "126 - 150" },
+        { min: 86.2, label: "151 - 175" },
+        { min: 85.5, label: "176 - 200" },
+        { min: 84.6, label: "200 - 250" },
+        { min: 84.0, label: "250 - 300" },
+        { min: 82.7, label: "300 - 400" },
+        { min: 81.5, label: "400 - 500" },
+        { min: 79.6, label: "500 - 750" },
+        { min: 77.6, label: "750 - 1000" },
+        { min: 75.6, label: "1000 - 1250" },
+        { min: 72.5, label: "1250 - 1750" },
+        { min: 67.9, label: "1750 - 3000" },
+        { min: 60.0, label: "3000 - 6000" },
+        { min: 0, label: "6000+" }
     ];
 
-    // --- 3. CONVERSION FUNCTIONS (C-20 Scheme) ---
+    // --- 3. LOGIC ---
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -272,38 +415,43 @@
         if(!isNaN(v)) document.getElementById('cgpa').value = ((v + 7.5) / 10).toFixed(2);
     }
 
-    // --- 4. PREDICTION LOGIC ---
-    function calculate() {
+    function predict() {
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
 
-        if(isNaN(p) || isNaN(m) || m > 100 || p > 100) {
-            alert("Please enter valid marks/percentage!");
+        if(isNaN(p) || isNaN(m) || p > 100 || m > 100) {
+            alert("Please enter valid details!");
             return;
         }
 
-        // Merit Score
+        // Merit Calculation
         let merit = (p / 2) + (m / 2);
         
         // Find Rank Range
         let rankLabel = "Unknown";
-        let maxRankVal = 10000;
+        let maxRank = 10000;
 
-        for(let r of ranges) {
-            if(merit >= r.min && merit <= r.max) {
+        for (let r of ranges) {
+            if (merit >= r.min) {
                 rankLabel = r.label;
+                // Parse max rank from label for filtering (e.g., "1 - 10" -> 10)
                 let parts = r.label.split('-');
-                if(parts.length > 1) maxRankVal = parseInt(parts[1]);
-                else maxRankVal = parseInt(parts[0]);
+                if(parts.length > 1) maxRank = parseInt(parts[1]);
+                else maxRank = parseInt(parts[0]);
                 break;
             }
         }
 
+        // Update UI
         document.getElementById('rank-display').innerText = rankLabel;
         document.getElementById('score-display').innerText = merit.toFixed(2);
         document.getElementById('rank-box').style.display = 'block';
 
-        renderColleges(maxRankVal);
+        // Show Colleges
+        renderColleges(maxRank);
+        
+        // Scroll to results
+        document.getElementById('college-section').scrollIntoView({behavior: 'smooth'});
     }
 
     function renderColleges(userRank) {
@@ -315,9 +463,9 @@
             ecHtml += getCard(clg.name, clg.ec, userRank);
         });
 
-        document.getElementById('cse-list').innerHTML = cseHtml || "<div style='color:#666'>No likely colleges found.</div>";
-        document.getElementById('aiml-list').innerHTML = aimlHtml || "<div style='color:#666'>No likely colleges found.</div>";
-        document.getElementById('ec-list').innerHTML = ecHtml || "<div style='color:#666'>No likely colleges found.</div>";
+        document.getElementById('cse-list').innerHTML = cseHtml || "<div style='color:#777'>No colleges in this range.</div>";
+        document.getElementById('aiml-list').innerHTML = aimlHtml || "<div style='color:#777'>No colleges in this range.</div>";
+        document.getElementById('ec-list').innerHTML = ecHtml || "<div style='color:#777'>No colleges in this range.</div>";
         
         document.getElementById('college-section').style.display = 'block';
     }
@@ -326,22 +474,25 @@
         let status = "";
         let colorClass = "";
 
+        // Safe: Rank is better (lower) than cutoff
         if (rank <= cutoff) {
-            status = "Safe";
+            status = "Safe Chance";
             colorClass = "safe";
-        } else if (rank <= cutoff + (cutoff * 0.15)) {
+        } 
+        // Borderline: Rank is slightly above cutoff (within 15%)
+        else if (rank <= cutoff + (cutoff * 0.15)) {
             status = "Borderline";
-            colorClass = "risk";
+            colorClass = "borderline";
         } else {
-            return ""; 
+            return ""; // Hide if out of range
         }
 
         return `
             <div class="college-card ${colorClass}">
                 <div class="clg-name">${name}</div>
-                <div class="clg-details">
-                    <span class="cutoff-badge">GM Cutoff: ${cutoff}</span>
-                    <span class="status-text" style="color:${colorClass==='safe'?'#34d399':'#fbbf24'}">${status}</span>
+                <div class="clg-status">
+                    <div style="font-size:0.8rem; color:#888;">Cutoff: ${cutoff}</div>
+                    <div class="badge">${status}</div>
                 </div>
             </div>
         `;
