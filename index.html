@@ -37,6 +37,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
         }
 
         h1 {
@@ -59,7 +60,7 @@
             border-radius: 8px;
             color: white;
             font-size: 1rem;
-            box-sizing: border-box; /* Fixes padding issues */
+            box-sizing: border-box;
         }
         input:focus { outline: none; border-color: var(--accent); }
 
@@ -153,6 +154,17 @@
         .cutoff-badge { font-size: 0.75rem; background: #333; padding: 2px 6px; border-radius: 4px; color: #ccc; }
         .status-text { font-size: 0.8rem; font-weight: 700; display: block; margin-top: 4px; }
 
+        /* TRAINED BY ADITHYA FOOTER */
+        .creator-footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555;
+            letter-spacing: 1px;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
     </style>
 </head>
 <body>
@@ -179,6 +191,8 @@
         <div class="rank-number" id="rank-display">---</div>
         <div class="merit-text">Merit Score: <span id="score-display">0.00</span></div>
     </div>
+
+    <div class="creator-footer">TRAINED BY ADITHYA 😎</div>
 </div>
 
 <div id="college-section">
@@ -199,15 +213,13 @@
 </div>
 
 <script>
-    // --- 1. REAL GM CUTOFFS (From 2025 PDF) ---
-    // Note: I used the "GM" column for General Merit. 
-    // E001=UVCE, E003=BMSCE, E005=RVCE, E006=MSRIT, E009=PES, E007=DSCE, E012=SirMVIT
+    // --- 1. REAL GM CUTOFFS (From 2025 PDF Data) ---
     const colleges = [
         { code: "E005", name: "RVCE Bangalore", cse: 50, aiml: 42, ec: 49 },
         { code: "E006", name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
         { code: "E009", name: "PES Univ (RR Campus)", cse: 255, aiml: 449, ec: 621 },
         { code: "E001", name: "UVCE Bangalore", cse: 137, aiml: 133, ec: 212 },
-        { code: "E003", name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 63 }, // Adjusted estimate for CSE based on trend
+        { code: "E003", name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 63 },
         { code: "E004", name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
         { code: "E007", name: "Dayananda Sagar (DSCE)", cse: 852, aiml: 707, ec: 954 },
         { code: "E008", name: "Bangalore Inst. Tech (BIT)", cse: 867, aiml: 951, ec: 1276 },
@@ -275,13 +287,11 @@
         
         // Find Rank Range
         let rankLabel = "Unknown";
-        let maxRankVal = 10000; // Used for filtering colleges
+        let maxRankVal = 10000;
 
         for(let r of ranges) {
             if(merit >= r.min && merit <= r.max) {
                 rankLabel = r.label;
-                // Extract the upper bound of the rank for safe comparison
-                // e.g., "1 - 10" -> 10, "100 - 125" -> 125
                 let parts = r.label.split('-');
                 if(parts.length > 1) maxRankVal = parseInt(parts[1]);
                 else maxRankVal = parseInt(parts[0]);
@@ -299,9 +309,7 @@
     function renderColleges(userRank) {
         let cseHtml = "", aimlHtml = "", ecHtml = "";
 
-        // Sort colleges by reputation (approx based on cutoff code)
         colleges.forEach(clg => {
-            // Check chance for each branch
             cseHtml += getCard(clg.name, clg.cse, userRank);
             aimlHtml += getCard(clg.name, clg.aiml, userRank);
             ecHtml += getCard(clg.name, clg.ec, userRank);
@@ -315,21 +323,17 @@
     }
 
     function getCard(name, cutoff, rank) {
-        // Logic:
-        // Safe: Rank is clearly inside the cutoff
-        // Borderline: Rank is within 10% tolerance above the cutoff (optimistic)
-        
         let status = "";
         let colorClass = "";
 
         if (rank <= cutoff) {
             status = "Safe";
-            colorClass = "safe"; // Green
+            colorClass = "safe";
         } else if (rank <= cutoff + (cutoff * 0.15)) {
-            status = "Borderline"; // Within 15% margin
-            colorClass = "risk"; // Yellow/Orange
+            status = "Borderline";
+            colorClass = "risk";
         } else {
-            return ""; // Don't show if rank is way beyond cutoff
+            return ""; 
         }
 
         return `
