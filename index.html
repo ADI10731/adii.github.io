@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCET 2026 Rank Predictor</title>
+    <title>DCET 2026 Ultimate Predictor</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <style>
         :root {
             --primary: #6c5ce7;
             --secondary: #a29bfe;
             --accent: #fd79a8;
-            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.5);
             --text-dark: #2d3436;
-            --text-light: #636e72;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.9);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -28,196 +27,141 @@
             flex-direction: column;
             align-items: center;
             color: var(--text-dark);
+            overflow-x: hidden;
         }
 
-        /* Main Card Container */
         .container {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             padding: 2.5rem;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.6);
             animation: slideIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
-            overflow: hidden;
-        }
-
-        /* Decorative blobs */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 150px;
-            height: 150px;
-            background: rgba(108, 92, 231, 0.1);
-            border-radius: 50%;
-            z-index: 0;
         }
 
         h1 {
             text-align: center;
             font-weight: 800;
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0;
             background: linear-gradient(to right, #6c5ce7, #fd79a8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            position: relative;
-            z-index: 1;
         }
 
-        /* YOUR NAME BADGE */
         .creator-badge {
             text-align: center;
             margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
         }
         .creator-badge span {
-            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            background: #6c5ce7;
             color: white;
-            padding: 5px 15px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
         }
 
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            margin-left: 5px;
-        }
-
-        input {
+        .input-group { margin-bottom: 1.5rem; }
+        label { font-size: 0.9rem; font-weight: 600; color: #636e72; display: block; margin-bottom: 5px; }
+        
+        input[type="number"] {
             width: 100%;
-            padding: 16px;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            background: #f1f2f6;
+            padding: 14px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-family: 'Poppins', sans-serif;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
+            transition: 0.3s;
             box-sizing: border-box;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
         }
+        input[type="number"]:focus { border-color: var(--primary); outline: none; background: #fff; }
 
-        input:focus {
+        /* SLIDER STYLES */
+        .slider-container { margin-top: 10px; }
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #dfe6e9;
             outline: none;
-            background: white;
-            border-color: var(--secondary);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.15);
-            transform: translateY(-2px);
+            transition: 0.2s;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
         }
 
-        .swap-icon {
-            text-align: center;
-            font-size: 1.5rem;
-            color: var(--text-light);
-            margin: -10px 0 10px 0;
-            cursor: pointer;
-            transition: transform 0.4s ease, color 0.3s;
-            position: relative;
-            z-index: 1;
-        }
-        .swap-icon:hover {
-            transform: rotate(180deg) scale(1.2);
-            color: var(--primary);
-        }
+        .swap-icon { text-align: center; font-size: 1.4rem; color: #b2bec3; cursor: pointer; margin: -10px 0; }
+        .swap-icon:hover { color: var(--primary); transform: scale(1.1); }
 
         button {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
             color: white;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+            margin-top: 15px;
         }
+        button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(108, 92, 231, 0.4); }
 
-        button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        button:hover::after { left: 100%; }
-
-        /* Rank Result Box */
+        /* RANK CARD */
         #rank-box {
             display: none;
             margin-top: 2rem;
-            padding: 1.5rem;
+            padding: 2rem;
             background: white;
             border-radius: 20px;
             text-align: center;
-            border: 2px solid #e0e0e0;
-            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
         }
-
-        .rank-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-light);
-            font-weight: 700;
-        }
-
-        .rank-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--text-dark);
+        
+        .rank-title { font-size: 0.8rem; letter-spacing: 2px; color: #b2bec3; font-weight: 700; }
+        .rank-val { 
+            font-size: 3.5rem; 
+            font-weight: 900; 
             margin: 5px 0;
-            background: linear-gradient(to right, #00b894, #00cec9);
+            background: linear-gradient(45deg, #0984e3, #e84393);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .merit-value {
-            font-size: 1rem;
-            color: var(--text-light);
-            background: #f1f2f6;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
+        .secondary-btn {
+            background: #dfe6e9;
+            color: #2d3436;
+            box-shadow: none;
+            font-size: 0.9rem;
+            padding: 12px;
+        }
+        .secondary-btn:hover { background: #b2bec3; transform: translateY(-2px); }
 
-        /* College Grid */
+        /* COLLEGE GRID */
         #college-section {
             display: none;
             width: 100%;
@@ -225,96 +169,49 @@
             margin-top: 40px;
             animation: fadeIn 1s ease;
         }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        .branch-column {
-            background: rgba(255, 255, 255, 0.9);
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        
+        .col-card {
+            background: rgba(255,255,255,0.8);
             padding: 1.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.5);
         }
-
-        .branch-header {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f2f6;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cse-head { color: #0984e3; }
-        .aiml-head { color: #e84393; }
-        .ec-head { color: #fdcb6e; }
-
-        .college-card {
+        .branch-head { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        
+        .clg-item {
             background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 5px solid #dfe6e9;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            transition: 0.2s;
         }
-
-        .college-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-        }
-
-        .clg-name { font-weight: 600; font-size: 0.95rem; color: var(--text-dark); }
-        .clg-status { text-align: right; }
-        
-        .badge {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 4px;
-        }
-
-        /* Dynamic Status Colors */
+        .clg-item:hover { transform: translateX(5px); }
         .safe { border-left-color: #00b894; }
-        .safe .badge { background: #e3faf5; color: #00b894; }
-        
-        .borderline { border-left-color: #fdcb6e; }
-        .borderline .badge { background: #fff8e1; color: #fdcb6e; }
+        .risk { border-left-color: #fdcb6e; }
 
-        /* Animations */
         @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="main-interface">
         <h1>DCET 2026 Predictor</h1>
-        
-        <div class="creator-badge">
-            <span>TRAINED BY ADITHYA 😎</span>
-        </div>
+        <div class="creator-badge"><span>TRAINED BY ADITHYA 😎</span></div>
 
         <div class="input-group">
             <label>Diploma CGPA</label>
             <input type="number" id="cgpa" placeholder="e.g. 9.75" step="0.01" oninput="toPercent()">
         </div>
 
-        <div class="swap-icon" title="Auto-Convert">⇅</div>
+        <div class="swap-icon" title="Swap">⇅</div>
 
         <div class="input-group">
             <label>Diploma Percentage (%)</label>
@@ -322,90 +219,91 @@
         </div>
 
         <div class="input-group">
-            <label>Expected DCET Marks (Out of 100)</label>
-            <input type="number" id="marks" placeholder="e.g. 85" step="1">
+            <label>Expected Marks: <span id="marks-val" style="color:var(--primary)">85</span></label>
+            <input type="number" id="marks" value="85" max="100" oninput="syncSlider(this.value)">
+            <div class="slider-container">
+                <input type="range" id="marks-slider" min="0" max="100" value="85" oninput="syncInput(this.value)">
+            </div>
         </div>
 
-        <button onclick="predict()">PREDICT MY RANK 🚀</button>
+        <button onclick="predict()">🔮 PREDICT RANK</button>
 
         <div id="rank-box">
-            <div class="rank-label">ESTIMATED RANK RANGE</div>
-            <div class="rank-value" id="rank-display">---</div>
-            <div class="merit-value">Merit Score: <span id="score-display">0.00</span></div>
+            <div class="rank-title">ESTIMATED RANK</div>
+            <div class="rank-val" id="rank-display">---</div>
+            <div style="color:#636e72; font-size:0.9rem;">Merit Score: <b id="score-display">0.00</b></div>
+            
+            <div class="action-buttons">
+                <button class="secondary-btn" onclick="downloadReport()">📸 Download Result</button>
+            </div>
         </div>
     </div>
 
     <div id="college-section">
-        <div class="grid-container">
-            <div class="branch-column">
-                <div class="branch-header cse-head">💻 CSE / ISE</div>
+        <div class="grid">
+            <div class="col-card">
+                <div class="branch-head" style="color:#0984e3">💻 CSE / ISE</div>
                 <div id="cse-list"></div>
             </div>
-            
-            <div class="branch-column">
-                <div class="branch-header aiml-head">🤖 AIML / AIDS</div>
+            <div class="col-card">
+                <div class="branch-head" style="color:#e84393">🤖 AIML / AIDS</div>
                 <div id="aiml-list"></div>
             </div>
-
-            <div class="branch-column">
-                <div class="branch-header ec-head">📡 E & C</div>
+            <div class="col-card">
+                <div class="branch-head" style="color:#fdcb6e">📡 E & C</div>
                 <div id="ec-list"></div>
             </div>
         </div>
     </div>
 
 <script>
-    // --- 1. DATA: GM Cutoffs (Extracted from 2025 PDF) ---
-    // Using E005 (RVCE), E006 (MSRIT), E009 (PES), E001 (UVCE) etc.
+    // --- DATA ---
     const colleges = [
         { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
         { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
-        { name: "PES Univ (RR Campus)", cse: 255, aiml: 449, ec: 621 },
+        { name: "PES Univ (RR)", cse: 255, aiml: 449, ec: 621 },
         { name: "UVCE Bangalore", cse: 137, aiml: 133, ec: 212 },
         { name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 110 },
         { name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
-        { name: "Dayananda Sagar (DSCE)", cse: 852, aiml: 707, ec: 954 },
-        { name: "Bangalore Inst. Tech (BIT)", cse: 867, aiml: 951, ec: 1276 },
-        { name: "BMS Inst. Tech (BMSIT)", cse: 1708, aiml: 1945, ec: 1332 },
-        { name: "Nitte Meenakshi (NMIT)", cse: 1649, aiml: 1389, ec: 2371 },
+        { name: "Dayananda Sagar", cse: 852, aiml: 707, ec: 954 },
+        { name: "Bangalore Inst. Tech", cse: 867, aiml: 951, ec: 1276 },
+        { name: "BMS Inst. Tech", cse: 1708, aiml: 1945, ec: 1332 },
+        { name: "Nitte Meenakshi", cse: 1649, aiml: 1389, ec: 2371 },
         { name: "Sir MVIT", cse: 2073, aiml: 2708, ec: 5264 },
-        { name: "RNSIT Bangalore", cse: 1824, aiml: 2390, ec: 2239 },
-        { name: "JSSATE Bangalore", cse: 3619, aiml: 4134, ec: 2383 },
+        { name: "RNSIT", cse: 1824, aiml: 2390, ec: 2239 },
+        { name: "JSSATE", cse: 3619, aiml: 4134, ec: 2383 },
         { name: "CMRIT", cse: 2974, aiml: 4194, ec: 3002 },
-        { name: "New Horizon (NHCE)", cse: 2133, aiml: 3917, ec: 2561 },
+        { name: "New Horizon", cse: 2133, aiml: 3917, ec: 2561 },
         { name: "Vidya Vikas Mysore", cse: 4828, aiml: 6000, ec: 3514 }
     ];
 
-    // --- 2. DATA: Rank Ranges (From your CSV) ---
     const ranges = [
-        { min: 91.8, label: "1 - 10" },
-        { min: 90.6, label: "11 - 20" },
-        { min: 89.98, label: "21 - 30" },
-        { min: 89.5, label: "31 - 40" },
-        { min: 89.1, label: "41 - 50" },
-        { min: 89.0, label: "51 - 60" },
-        { min: 88.3, label: "61 - 70" },
-        { min: 88.0, label: "71 - 80" },
-        { min: 87.8, label: "81 - 90" },
-        { min: 87.6, label: "91 - 100" },
-        { min: 86.9, label: "100 - 125" },
-        { min: 86.5, label: "126 - 150" },
-        { min: 86.2, label: "151 - 175" },
-        { min: 85.5, label: "176 - 200" },
-        { min: 84.6, label: "200 - 250" },
-        { min: 84.0, label: "250 - 300" },
-        { min: 82.7, label: "300 - 400" },
-        { min: 81.5, label: "400 - 500" },
-        { min: 79.6, label: "500 - 750" },
-        { min: 77.6, label: "750 - 1000" },
-        { min: 75.6, label: "1000 - 1250" },
-        { min: 72.5, label: "1250 - 1750" },
-        { min: 67.9, label: "1750 - 3000" },
-        { min: 60.0, label: "3000 - 6000" },
-        { min: 0, label: "6000+" }
+        { min: 91.8, label: "1 - 10" }, { min: 90.6, label: "11 - 20" },
+        { min: 89.98, label: "21 - 30" }, { min: 89.5, label: "31 - 40" },
+        { min: 89.1, label: "41 - 50" }, { min: 89.0, label: "51 - 60" },
+        { min: 88.3, label: "61 - 70" }, { min: 88.0, label: "71 - 80" },
+        { min: 87.8, label: "81 - 90" }, { min: 87.6, label: "91 - 100" },
+        { min: 86.9, label: "100 - 125" }, { min: 86.5, label: "126 - 150" },
+        { min: 86.2, label: "151 - 175" }, { min: 85.5, label: "176 - 200" },
+        { min: 84.6, label: "200 - 250" }, { min: 84.0, label: "250 - 300" },
+        { min: 82.7, label: "300 - 400" }, { min: 81.5, label: "400 - 500" },
+        { min: 79.6, label: "500 - 750" }, { min: 77.6, label: "750 - 1000" },
+        { min: 75.6, label: "1000 - 1250" }, { min: 72.5, label: "1250 - 1750" },
+        { min: 67.9, label: "1750 - 3000" }, { min: 0, label: "3000+" }
     ];
 
-    // --- 3. LOGIC ---
+    // --- LOGIC ---
+    function syncInput(val) {
+        document.getElementById('marks').value = val;
+        document.getElementById('marks-val').innerText = val;
+        // Auto-predict if data exists
+        if(document.getElementById('percent').value) predict();
+    }
+    function syncSlider(val) {
+        document.getElementById('marks-slider').value = val;
+        document.getElementById('marks-val').innerText = val;
+    }
+
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -419,83 +317,85 @@
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
 
-        if(isNaN(p) || isNaN(m) || p > 100 || m > 100) {
-            alert("Please enter valid details!");
-            return;
-        }
+        if(isNaN(p) || isNaN(m)) return; 
 
-        // Merit Calculation
+        // Merit
         let merit = (p / 2) + (m / 2);
         
-        // Find Rank Range
-        let rankLabel = "Unknown";
-        let maxRank = 10000;
-
+        // Rank
+        let rankLabel = "3000+";
+        let maxRank = 5000;
         for (let r of ranges) {
             if (merit >= r.min) {
                 rankLabel = r.label;
-                // Parse max rank from label for filtering (e.g., "1 - 10" -> 10)
                 let parts = r.label.split('-');
-                if(parts.length > 1) maxRank = parseInt(parts[1]);
-                else maxRank = parseInt(parts[0]);
+                maxRank = parseInt(parts.length > 1 ? parts[1] : parts[0]);
                 break;
             }
         }
+
+        // Trigger Confetti if Rank < 500
+        if (maxRank <= 500) triggerConfetti();
 
         // Update UI
         document.getElementById('rank-display').innerText = rankLabel;
         document.getElementById('score-display').innerText = merit.toFixed(2);
         document.getElementById('rank-box').style.display = 'block';
 
-        // Show Colleges
         renderColleges(maxRank);
         
-        // Scroll to results
-        document.getElementById('college-section').scrollIntoView({behavior: 'smooth'});
+        // Scroll slightly
+        if(window.innerWidth < 768) {
+             document.getElementById('college-section').style.display = 'block';
+             document.getElementById('college-section').scrollIntoView({behavior: 'smooth'});
+        } else {
+             document.getElementById('college-section').style.display = 'block';
+        }
     }
 
-    function renderColleges(userRank) {
+    function renderColleges(rank) {
         let cseHtml = "", aimlHtml = "", ecHtml = "";
-
         colleges.forEach(clg => {
-            cseHtml += getCard(clg.name, clg.cse, userRank);
-            aimlHtml += getCard(clg.name, clg.aiml, userRank);
-            ecHtml += getCard(clg.name, clg.ec, userRank);
+            cseHtml += getCard(clg.name, clg.cse, rank);
+            aimlHtml += getCard(clg.name, clg.aiml, rank);
+            ecHtml += getCard(clg.name, clg.ec, rank);
         });
-
-        document.getElementById('cse-list').innerHTML = cseHtml || "<div style='color:#777'>No colleges in this range.</div>";
-        document.getElementById('aiml-list').innerHTML = aimlHtml || "<div style='color:#777'>No colleges in this range.</div>";
-        document.getElementById('ec-list').innerHTML = ecHtml || "<div style='color:#777'>No colleges in this range.</div>";
-        
-        document.getElementById('college-section').style.display = 'block';
+        document.getElementById('cse-list').innerHTML = cseHtml || "<small>No safe colleges found.</small>";
+        document.getElementById('aiml-list').innerHTML = aimlHtml || "<small>No safe colleges found.</small>";
+        document.getElementById('ec-list').innerHTML = ecHtml || "<small>No safe colleges found.</small>";
     }
 
     function getCard(name, cutoff, rank) {
-        let status = "";
-        let colorClass = "";
-
-        // Safe: Rank is better (lower) than cutoff
-        if (rank <= cutoff) {
-            status = "Safe Chance";
-            colorClass = "safe";
-        } 
-        // Borderline: Rank is slightly above cutoff (within 15%)
-        else if (rank <= cutoff + (cutoff * 0.15)) {
-            status = "Borderline";
-            colorClass = "borderline";
-        } else {
-            return ""; // Hide if out of range
-        }
-
+        if (rank > cutoff + (cutoff * 0.15)) return ""; 
+        let isSafe = rank <= cutoff;
         return `
-            <div class="college-card ${colorClass}">
-                <div class="clg-name">${name}</div>
-                <div class="clg-status">
-                    <div style="font-size:0.8rem; color:#888;">Cutoff: ${cutoff}</div>
-                    <div class="badge">${status}</div>
+            <div class="clg-item ${isSafe ? 'safe' : 'risk'}">
+                <b>${name}</b>
+                <div style="text-align:right">
+                    <div style="font-size:0.75rem; color:#888">Cutoff: ${cutoff}</div>
+                    <div style="font-size:0.75rem; font-weight:700; color:${isSafe?'#00b894':'#fdcb6e'}">
+                        ${isSafe ? 'Safe' : 'Borderline'}
+                    </div>
                 </div>
-            </div>
-        `;
+            </div>`;
+    }
+
+    function triggerConfetti() {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+
+    function downloadReport() {
+        const element = document.body; 
+        html2canvas(element).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'DCET_Prediction_Adithya.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
     }
 </script>
 
