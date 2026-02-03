@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCET 2026 Ultimate Predictor</title>
+    <title>DCET 2026 Mega App</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
@@ -12,21 +12,22 @@
 
     <style>
         :root {
-            /* Light Theme Variables */
+            /* Light Theme */
             --bg-grad: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.9);
             --text-main: #2d3436;
             --text-sec: #636e72;
             --accent: #6c5ce7;
             --card-border: rgba(255,255,255,0.6);
             --shadow: 0 15px 35px rgba(0,0,0,0.1);
             --input-bg: #f1f2f6;
+            --success: #00b894;
         }
 
         [data-theme="dark"] {
-            /* Dark Theme Variables */
+            /* Dark Theme */
             --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            --glass-bg: rgba(30, 39, 46, 0.85);
+            --glass-bg: rgba(30, 39, 46, 0.9);
             --text-main: #ffffff;
             --text-sec: #b2bec3;
             --accent: #00d2d3;
@@ -61,98 +62,101 @@
 
         /* --- NAVBAR --- */
         .navbar {
-            width: 100%; padding: 20px 40px;
+            width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px); background: rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px); background: rgba(0,0,0,0.1);
             position: fixed; top: 0; z-index: 100;
         }
-        
-        .logo-area {
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 900; font-size: 1.2rem;
-        }
-        .logo-img {
-            width: 40px; height: 40px; border-radius: 8px;
-            background: var(--accent); display: flex; align-items: center; justify-content: center; color: white;
-        }
-
-        .theme-toggle {
-            cursor: pointer; font-size: 1.5rem; color: var(--text-main);
-            background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 50%;
-        }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.1rem; }
+        .logo-img { width: 35px; height: 35px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; }
+        .theme-toggle { cursor: pointer; font-size: 1.2rem; padding: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; }
 
         /* --- MAIN CONTAINER --- */
         .app-container {
-            margin-top: 100px;
-            width: 100%; max-width: 550px;
+            margin-top: 90px; width: 95%; max-width: 550px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 2.5rem; border-radius: 24px;
+            padding: 2rem; border-radius: 24px;
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow);
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            animation: slideUp 0.8s ease;
             position: relative;
         }
 
         h1 {
-            text-align: center; font-weight: 900; font-size: 2.2rem; margin: 0;
+            text-align: center; font-weight: 900; font-size: 2rem; margin: 0;
             background: linear-gradient(90deg, #6c5ce7, #00d2d3);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .signature {
-            text-align: center; margin-bottom: 25px; font-size: 0.8rem;
-            font-weight: 700; letter-spacing: 1px; opacity: 0.8;
-        }
+        .signature { text-align: center; margin-bottom: 20px; font-size: 0.8rem; font-weight: 700; opacity: 0.8; letter-spacing: 1px; }
 
         /* --- INPUTS --- */
-        .input-group { margin-bottom: 20px; }
-        label { font-size: 0.9rem; font-weight: 600; color: var(--text-sec); display: block; margin-bottom: 8px; }
+        .input-group { margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; color: var(--text-sec); display: block; margin-bottom: 5px; }
         
-        input[type="number"] {
-            width: 100%; padding: 16px; border-radius: 12px; border: none;
+        input, select {
+            width: 100%; padding: 14px; border-radius: 12px; border: none;
             background: var(--input-bg); color: var(--text-main);
-            font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
         }
-        input:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
+        input:focus, select:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
 
-        .slider-wrapper { margin-top: 10px; }
-        input[type="range"] {
-            width: 100%; height: 6px; border-radius: 5px; background: #dfe6e9; outline: none; -webkit-appearance: none;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
-            background: var(--accent); cursor: pointer; box-shadow: 0 0 10px var(--accent);
-        }
-
-        .swap-btn {
-            text-align: center; margin: -10px 0; cursor: pointer; color: var(--text-sec); font-size: 1.2rem;
-        }
+        .slider-wrapper { margin-top: 5px; }
+        input[type="range"] { height: 5px; background: #dfe6e9; padding: 0; }
+        
+        .swap-btn { text-align: center; margin: -5px 0 10px; cursor: pointer; color: var(--text-sec); font-size: 1.2rem; }
         .swap-btn:hover { color: var(--accent); transform: scale(1.1); }
 
         /* --- BUTTONS --- */
         .primary-btn {
-            width: 100%; padding: 18px; border: none; border-radius: 14px;
+            width: 100%; padding: 16px; border: none; border-radius: 14px;
             background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
             color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
             box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); margin-top: 10px;
-            position: relative; overflow: hidden;
+            transition: transform 0.2s;
         }
-        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4); }
-        .primary-btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: 0.5s;
-        }
-        .primary-btn:hover::after { left: 100%; }
+        .primary-btn:hover { transform: translateY(-3px); }
 
-        .action-row { display: flex; gap: 10px; margin-top: 20px; }
-        .icon-btn {
-            flex: 1; padding: 12px; border: none; border-radius: 10px;
-            background: var(--input-bg); color: var(--text-main); font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        /* --- RESOURCES SECTION --- */
+        .resources-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px;
         }
-        .icon-btn:hover { background: var(--text-sec); color: white; }
+        .resource-card {
+            background: var(--input-bg); padding: 15px; border-radius: 15px;
+            text-align: center; cursor: pointer; border: 1px solid transparent;
+            text-decoration: none; color: var(--text-main); display: block;
+        }
+        .resource-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .res-icon { font-size: 1.5rem; margin-bottom: 5px; color: var(--accent); }
+        .res-title { font-size: 0.9rem; font-weight: 700; }
+
+        .telegram-btn {
+            grid-column: span 2; background: #229ED9; color: white;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .telegram-btn .res-icon { color: white; margin: 0; }
+
+        /* --- COMMUNITY POLL --- */
+        .poll-section {
+            margin-top: 40px; background: var(--glass-bg); padding: 20px;
+            border-radius: 20px; border: 1px solid var(--card-border);
+        }
+        .poll-header { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        
+        .poll-window {
+            margin-top: 20px; height: 200px; overflow-y: auto;
+            background: var(--input-bg); border-radius: 12px; padding: 10px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .student-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass-bg); padding: 10px; border-radius: 8px;
+            margin-bottom: 8px; border-left: 3px solid var(--accent);
+            animation: fadeIn 0.5s ease;
+        }
+        .st-name { font-weight: 700; font-size: 0.9rem; }
+        .st-branch { font-size: 0.8rem; opacity: 0.8; }
+        .st-cgpa { font-weight: 700; color: var(--success); background: rgba(0, 184, 148, 0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
 
         /* --- RESULTS --- */
         #rank-card {
@@ -160,85 +164,53 @@
             background: var(--input-bg); padding: 2rem; border-radius: 20px;
             border: 2px solid var(--accent); animation: popIn 0.5s ease;
         }
-        .rank-big {
-            font-size: 3.5rem; font-weight: 900; margin: 10px 0;
-            background: linear-gradient(45deg, var(--accent), #ff7675);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .rank-big { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent), #ff7675); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         /* --- COLLEGE LIST --- */
-        #college-section {
-            display: none; width: 100%; max-width: 1100px; margin: 40px 0;
-            padding: 0 20px;
-        }
+        #college-section { display: none; width: 100%; max-width: 1100px; margin: 40px 0; padding: 0 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
-        .branch-col {
-            background: var(--glass-bg); padding: 1.5rem; border-radius: 20px;
-            border: 1px solid var(--card-border);
-        }
-        .branch-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-
-        .clg-item {
-            background: var(--input-bg); padding: 12px; border-radius: 10px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-left: 4px solid #555;
-        }
-        .safe { border-left-color: #00b894; }
-        .risk { border-left-color: #fdcb6e; }
+        .branch-col { background: var(--glass-bg); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--card-border); }
+        .clg-item { background: var(--input-bg); padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #555; }
+        .safe { border-left-color: var(--success); } .risk { border-left-color: #fdcb6e; }
 
         /* --- TOAST --- */
-        #toast {
-            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
-            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 1000;
-            left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 1rem;
-        }
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-
     </style>
 </head>
 <body data-theme="light">
 
     <div id="preloader"><div class="loader"></div></div>
-
-    <div id="toast">Message</div>
+    <div id="toast"></div>
 
     <nav class="navbar">
         <div class="logo-area">
             <div class="logo-img"><i class="fa-solid fa-graduation-cap"></i></div>
-            <span>DCET PREDICTOR</span>
+            <span>DCET 2026</span>
         </div>
-        <div class="theme-toggle" onclick="toggleTheme()">
-            <i class="fa-solid fa-moon" id="theme-icon"></i>
-        </div>
+        <div class="theme-toggle" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></div>
     </nav>
 
     <div class="app-container" id="capture-area">
-        <h1>DCET 2026</h1>
+        <h1>DCET PREDICTOR</h1>
         <div class="signature">TRAINED BY ADITHYA 😎</div>
 
         <div class="input-group">
             <label>Diploma CGPA</label>
             <input type="number" id="cgpa" placeholder="e.g. 9.75" step="0.01" oninput="toPercent()">
         </div>
-
         <div class="swap-btn" title="Convert">⇅</div>
-
         <div class="input-group">
             <label>Diploma Percentage (%)</label>
             <input type="number" id="percent" placeholder="e.g. 90.00" step="0.01" oninput="toCgpa()">
         </div>
-
         <div class="input-group">
-            <label style="display:flex; justify-content:space-between;">
-                Expected Marks 
-                <span id="marks-val" style="color:var(--accent)">85</span>
-            </label>
+            <label style="display:flex; justify-content:space-between;">Expected Marks <span id="marks-val" style="color:var(--accent)">85</span></label>
             <input type="number" id="marks" value="85" oninput="syncSlider(this.value)">
             <div class="slider-wrapper">
                 <input type="range" id="marks-slider" min="0" max="100" value="85" oninput="syncInput(this.value)">
@@ -248,13 +220,55 @@
         <button class="primary-btn" onclick="predict()">PREDICT RANK 🚀</button>
 
         <div id="rank-card">
-            <div style="font-size:0.9rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-sec)">Estimated Rank</div>
+            <div style="font-size:0.8rem; letter-spacing:2px; text-transform:uppercase;">Estimated Rank</div>
             <div class="rank-big" id="rank-display">---</div>
-            <div style="font-size:0.9rem; margin-bottom:15px;">Merit Score: <b id="score-display">0.00</b></div>
-            
-            <div class="action-row">
-                <button class="icon-btn" onclick="downloadResult()"><i class="fa-solid fa-camera"></i> Save</button>
-                <button class="icon-btn" onclick="shareResult()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+            <div>Merit Score: <b id="score-display">0.00</b></div>
+            <div style="margin-top:15px; display:flex; gap:10px;">
+                <button class="primary-btn" style="margin:0; background:#333;" onclick="downloadResult()"><i class="fa-solid fa-camera"></i> Save</button>
+            </div>
+        </div>
+
+        <div class="resources-grid">
+            <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="resource-card">
+                <div class="res-icon"><i class="fa-solid fa-book-open"></i></div>
+                <div class="res-title">Official Notes</div>
+            </a>
+            <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="resource-card">
+                <div class="res-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                <div class="res-title">Handwritten Notes</div>
+            </a>
+            <a href="https://t.me/dcet26" target="_blank" class="resource-card telegram-btn">
+                <div class="res-icon"><i class="fa-brands fa-telegram"></i></div>
+                <div class="res-title">Join DCET26 Army</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="app-container" style="margin-top: 30px;">
+        <div class="poll-header"><i class="fa-solid fa-users"></i> Live Aspirant Board</div>
+        <div class="input-group">
+            <input type="text" id="poll-name" placeholder="Your Name">
+        </div>
+        <div class="input-group" style="display:flex; gap:10px;">
+            <select id="poll-branch">
+                <option value="CSE">CSE</option>
+                <option value="AIML">AIML</option>
+                <option value="EC">E&C</option>
+                <option value="MECH">Mech</option>
+                <option value="CIVIL">Civil</option>
+            </select>
+            <input type="number" id="poll-cgpa" placeholder="CGPA" step="0.01">
+        </div>
+        <button class="primary-btn" onclick="addStudent()">Join the List +</button>
+
+        <div class="poll-window" id="student-list">
+            <div class="student-row">
+                <div><div class="st-name">Adithya (Admin)</div><div class="st-branch">CSE</div></div>
+                <div class="st-cgpa">9.80</div>
+            </div>
+            <div class="student-row">
+                <div><div class="st-name">Rohan K.</div><div class="st-branch">AIML</div></div>
+                <div class="st-cgpa">9.25</div>
             </div>
         </div>
     </div>
@@ -277,9 +291,7 @@
     </div>
 
 <script>
-    // --- APP LOGIC ---
-
-    // 1. Data Sources
+    // --- 1. DATA & LOGIC ---
     const colleges = [
         { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
         { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
@@ -314,34 +326,26 @@
         { min: 67.9, label: "1750 - 3000" }, { min: 0, label: "3000+" }
     ];
 
-    // 2. Preloader
+    // --- 2. INIT ---
     window.onload = function() {
-        setTimeout(() => {
-            document.getElementById('preloader').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('preloader').style.display = 'none';
-            }, 500);
-        }, 1000);
+        setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 800);
     };
 
-    // 3. Theme Toggle
     function toggleTheme() {
         const body = document.body;
         const icon = document.getElementById('theme-icon');
         if (body.getAttribute('data-theme') === 'light') {
             body.setAttribute('data-theme', 'dark');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-            showToast("Switched to Dark Mode 🌙");
+            icon.className = 'fa-solid fa-sun';
+            showToast("Dark Mode Activated 🌙");
         } else {
             body.setAttribute('data-theme', 'light');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-            showToast("Switched to Light Mode ☀️");
+            icon.className = 'fa-solid fa-moon';
+            showToast("Light Mode Activated ☀️");
         }
     }
 
-    // 4. Input Logic
+    // --- 3. CORE FUNCTIONS ---
     function syncInput(val) {
         document.getElementById('marks').value = val;
         document.getElementById('marks-val').innerText = val;
@@ -351,7 +355,6 @@
         document.getElementById('marks-slider').value = val;
         document.getElementById('marks-val').innerText = val;
     }
-
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -361,15 +364,12 @@
         if(!isNaN(v)) document.getElementById('cgpa').value = ((v + 7.5) / 10).toFixed(2);
     }
 
-    // 5. Prediction Logic
     function predict() {
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
-
-        if(isNaN(p) || isNaN(m)) { showToast("Please enter values first!"); return; }
+        if(isNaN(p) || isNaN(m)) { showToast("Enter details!"); return; }
 
         let merit = (p / 2) + (m / 2);
-        
         let rankLabel = "3000+";
         let maxRank = 5000;
 
@@ -383,16 +383,13 @@
         }
 
         if(maxRank <= 500) triggerConfetti();
-
         document.getElementById('rank-display').innerText = rankLabel;
         document.getElementById('score-display').innerText = merit.toFixed(2);
         document.getElementById('rank-card').style.display = 'block';
-        
         renderColleges(maxRank);
         document.getElementById('college-section').style.display = 'block';
         
-        // Scroll slightly
-        window.scrollBy({ top: 300, behavior: 'smooth' });
+        document.getElementById('rank-card').scrollIntoView({behavior: 'smooth'});
     }
 
     function renderColleges(rank) {
@@ -402,9 +399,9 @@
             aimlH += getRow(clg.name, clg.aiml, rank);
             ecH += getRow(clg.name, clg.ec, rank);
         });
-        document.getElementById('cse-list').innerHTML = cseH || "<small>No safe colleges.</small>";
-        document.getElementById('aiml-list').innerHTML = aimlH || "<small>No safe colleges.</small>";
-        document.getElementById('ec-list').innerHTML = ecH || "<small>No safe colleges.</small>";
+        document.getElementById('cse-list').innerHTML = cseH || "<small>No safe options.</small>";
+        document.getElementById('aiml-list').innerHTML = aimlH || "<small>No safe options.</small>";
+        document.getElementById('ec-list').innerHTML = ecH || "<small>No safe options.</small>";
     }
 
     function getRow(name, cutoff, rank) {
@@ -422,39 +419,45 @@
             </div>`;
     }
 
-    // 6. Tools
+    // --- 4. POLL SYSTEM ---
+    function addStudent() {
+        let name = document.getElementById('poll-name').value;
+        let branch = document.getElementById('poll-branch').value;
+        let cgpa = document.getElementById('poll-cgpa').value;
+
+        if(!name || !cgpa) { showToast("Please fill all poll fields!"); return; }
+
+        let html = `
+            <div class="student-row">
+                <div><div class="st-name">${name}</div><div class="st-branch">${branch}</div></div>
+                <div class="st-cgpa">${cgpa}</div>
+            </div>
+        `;
+        let list = document.getElementById('student-list');
+        list.innerHTML = html + list.innerHTML;
+        
+        document.getElementById('poll-name').value = "";
+        document.getElementById('poll-cgpa').value = "";
+        showToast("Added to List! 🎉");
+    }
+
+    // --- 5. UTILS ---
     function showToast(msg) {
-        var x = document.getElementById("toast");
-        x.className = "show";
-        x.innerText = msg;
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        let x = document.getElementById("toast");
+        x.innerText = msg; x.className = "show";
+        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
     }
-
     function triggerConfetti() {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     }
-
     function downloadResult() {
         html2canvas(document.getElementById("capture-area")).then(canvas => {
             let link = document.createElement('a');
-            link.download = 'DCET_Prediction_Adithya.png';
+            link.download = 'DCET_Rank.png';
             link.href = canvas.toDataURL();
             link.click();
-            showToast("Screenshot Saved! 📸");
+            showToast("Saved to Gallery! 📸");
         });
-    }
-
-    function shareResult() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'My DCET Prediction',
-                text: `I used Adithya's DCET Predictor! Check yours now.`,
-                url: window.location.href
-            }).then(() => showToast("Shared Successfully!"))
-              .catch((error) => console.log('Error sharing', error));
-        } else {
-            showToast("Sharing not supported on this browser.");
-        }
     }
 </script>
 
