@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCET 2026 Mega App</title>
+    <title>DCET 2026 Universe</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
             /* Light Theme */
-            --bg-grad: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
+            --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.8);
             --text-main: #2d3436;
             --text-sec: #636e72;
-            --accent: #6c5ce7;
-            --card-border: rgba(255,255,255,0.6);
-            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --accent: #6c5ce7; /* Purple */
+            --accent-grad: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --card-border: rgba(255,255,255,0.8);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
             --input-bg: #f1f2f6;
             --success: #00b894;
         }
@@ -27,271 +28,298 @@
         [data-theme="dark"] {
             /* Dark Theme */
             --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            --glass-bg: rgba(30, 39, 46, 0.9);
+            --glass-bg: rgba(30, 39, 46, 0.95);
+            --nav-bg: rgba(30, 39, 46, 0.8);
             --text-main: #ffffff;
             --text-sec: #b2bec3;
-            --accent: #00d2d3;
+            --accent: #00d2d3; /* Cyan */
+            --accent-grad: linear-gradient(135deg, #00d2d3 0%, #48dbfb 100%);
             --card-border: rgba(255,255,255,0.1);
             --shadow: 0 15px 35px rgba(0,0,0,0.5);
-            --input-bg: #2d3436;
+            --input-bg: #1e272e;
         }
 
-        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; scroll-behavior: smooth; }
 
         body {
             font-family: 'Outfit', sans-serif;
             background: var(--bg-grad);
             margin: 0;
-            min-height: 100vh;
+            padding-bottom: 80px; /* Space for bottom nav on mobile if needed */
             color: var(--text-main);
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s;
-        }
-        .loader { width: 50px; height: 50px; border: 5px solid #ddd; border-top-color: #6c5ce7; border-radius: 50%; animation: spin 1s infinite linear; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- NAVBAR --- */
+        /* --- NAVIGATION --- */
         .navbar {
-            width: 100%; padding: 15px 30px;
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px); background: rgba(0,0,0,0.1);
-            position: fixed; top: 0; z-index: 100;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: var(--nav-bg); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
         }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.1rem; }
-        .logo-img { width: 35px; height: 35px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; }
-        .theme-toggle { cursor: pointer; font-size: 1.2rem; padding: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; }
-
-        /* --- MAIN CONTAINER --- */
-        .app-container {
-            margin-top: 90px; width: 95%; max-width: 550px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 2rem; border-radius: 24px;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--shadow);
-            animation: slideUp 0.8s ease;
-            position: relative;
-        }
-
-        h1 {
-            text-align: center; font-weight: 900; font-size: 2rem; margin: 0;
-            background: linear-gradient(90deg, #6c5ce7, #00d2d3);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .signature { text-align: center; margin-bottom: 20px; font-size: 0.8rem; font-weight: 700; opacity: 0.8; letter-spacing: 1px; }
-
-        /* --- INPUTS --- */
-        .input-group { margin-bottom: 15px; }
-        label { font-size: 0.85rem; font-weight: 600; color: var(--text-sec); display: block; margin-bottom: 5px; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; }
+        .nav-logo i { background: var(--accent); color: white; padding: 8px; border-radius: 8px; }
         
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--text-sec); text-decoration: none; padding: 8px 12px; border-radius: 8px; }
+        .nav-item:hover, .nav-item.active { background: var(--accent); color: white; }
+        
+        .theme-btn { cursor: pointer; font-size: 1.2rem; padding: 8px; border-radius: 50%; background: var(--input-bg); }
+
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 60px; left: 0; width: 100%; background: var(--glass-bg); flex-direction: column; padding: 20px; box-shadow: var(--shadow); }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; }
+        }
+        @media (min-width: 769px) { .menu-toggle { display: none; } }
+
+        /* --- SECTIONS --- */
+        .section-container {
+            max-width: 1000px; margin: 100px auto 40px; padding: 0 20px;
+            display: none; animation: fadeIn 0.5s ease;
+        }
+        .section-container.active { display: block; }
+
+        .card {
+            background: var(--glass-bg); padding: 2.5rem; border-radius: 24px;
+            border: 1px solid var(--card-border); box-shadow: var(--shadow);
+            position: relative; overflow: hidden;
+        }
+
+        h1 { text-align: center; font-weight: 900; font-size: 2.5rem; margin-bottom: 5px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { text-align: center; font-size: 0.9rem; font-weight: 700; opacity: 0.7; margin-bottom: 30px; letter-spacing: 1px; }
+
+        /* --- PREDICTOR STYLES --- */
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        @media (max-width: 600px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+
+        label { font-size: 0.85rem; font-weight: 700; color: var(--text-sec); display: block; margin-bottom: 8px; }
         input, select {
-            width: 100%; padding: 14px; border-radius: 12px; border: none;
-            background: var(--input-bg); color: var(--text-main);
-            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: var(--input-bg); color: var(--text-main); font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
         }
-        input:focus, select:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
+        input:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
 
-        .slider-wrapper { margin-top: 5px; }
-        input[type="range"] { height: 5px; background: #dfe6e9; padding: 0; }
-        
-        .swap-btn { text-align: center; margin: -5px 0 10px; cursor: pointer; color: var(--text-sec); font-size: 1.2rem; }
-        .swap-btn:hover { color: var(--accent); transform: scale(1.1); }
-
-        /* --- BUTTONS --- */
         .primary-btn {
-            width: 100%; padding: 16px; border: none; border-radius: 14px;
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); margin-top: 10px;
-            transition: transform 0.2s;
+            width: 100%; padding: 18px; border: none; border-radius: 14px;
+            background: var(--accent-grad); color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-top: 20px; transition: transform 0.2s;
         }
         .primary-btn:hover { transform: translateY(-3px); }
 
-        /* --- RESOURCES SECTION --- */
-        .resources-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px;
-        }
-        .resource-card {
-            background: var(--input-bg); padding: 15px; border-radius: 15px;
-            text-align: center; cursor: pointer; border: 1px solid transparent;
-            text-decoration: none; color: var(--text-main); display: block;
-        }
-        .resource-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .res-icon { font-size: 1.5rem; margin-bottom: 5px; color: var(--accent); }
-        .res-title { font-size: 0.9rem; font-weight: 700; }
+        /* --- LEADERBOARD --- */
+        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .leaderboard-table th { text-align: left; color: var(--text-sec); padding: 10px; font-size: 0.8rem; text-transform: uppercase; }
+        .leaderboard-row { background: var(--input-bg); border-radius: 10px; margin-bottom: 10px; display: table-row; }
+        .leaderboard-row td { padding: 15px; border-bottom: 5px solid transparent; } /* Spacing hack */
+        .rank-badge { background: var(--accent); color: white; padding: 5px 10px; border-radius: 50%; font-weight: bold; font-size: 0.8rem; }
+        .top-rank { background: #ffd700; color: #000; box-shadow: 0 0 10px #ffd700; }
 
-        .telegram-btn {
-            grid-column: span 2; background: #229ED9; color: white;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+        /* --- STUDY MATERIALS --- */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .res-card {
+            background: var(--input-bg); padding: 20px; border-radius: 16px; text-align: center;
+            text-decoration: none; color: var(--text-main); border: 2px solid transparent; transition: 0.3s;
         }
-        .telegram-btn .res-icon { color: white; margin: 0; }
+        .res-card:hover { border-color: var(--accent); transform: translateY(-5px); background: var(--glass-bg); }
+        .res-icon { font-size: 2rem; margin-bottom: 10px; color: var(--accent); }
+        .res-name { font-weight: 700; font-size: 1.1rem; }
 
-        /* --- COMMUNITY POLL --- */
-        .poll-section {
-            margin-top: 40px; background: var(--glass-bg); padding: 20px;
-            border-radius: 20px; border: 1px solid var(--card-border);
+        /* --- LIVE CHAT --- */
+        .chat-window {
+            height: 350px; background: var(--input-bg); border-radius: 16px; padding: 20px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--card-border);
         }
-        .poll-header { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        
-        .poll-window {
-            margin-top: 20px; height: 200px; overflow-y: auto;
-            background: var(--input-bg); border-radius: 12px; padding: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .student-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--glass-bg); padding: 10px; border-radius: 8px;
-            margin-bottom: 8px; border-left: 3px solid var(--accent);
-            animation: fadeIn 0.5s ease;
-        }
-        .st-name { font-weight: 700; font-size: 0.9rem; }
-        .st-branch { font-size: 0.8rem; opacity: 0.8; }
-        .st-cgpa { font-weight: 700; color: var(--success); background: rgba(0, 184, 148, 0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
+        .message { padding: 10px 15px; border-radius: 12px; max-width: 80%; font-size: 0.9rem; line-height: 1.4; }
+        .msg-left { align-self: flex-start; background: var(--glass-bg); border: 1px solid var(--card-border); }
+        .msg-right { align-self: flex-end; background: var(--accent); color: white; }
+        .chat-input-area { display: flex; gap: 10px; margin-top: 15px; }
 
-        /* --- RESULTS --- */
-        #rank-card {
-            display: none; margin-top: 30px; text-align: center;
-            background: var(--input-bg); padding: 2rem; border-radius: 20px;
-            border: 2px solid var(--accent); animation: popIn 0.5s ease;
-        }
-        .rank-big { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent), #ff7675); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* --- RESULTS AREA --- */
+        #rank-display-area { display: none; text-align: center; margin-top: 30px; padding: 20px; background: var(--input-bg); border-radius: 16px; border: 2px solid var(--accent); }
+        .rank-big { font-size: 3rem; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* --- COLLEGE LIST --- */
-        #college-section { display: none; width: 100%; max-width: 1100px; margin: 40px 0; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .branch-col { background: var(--glass-bg); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--card-border); }
-        .clg-item { background: var(--input-bg); padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #555; }
-        .safe { border-left-color: var(--success); } .risk { border-left-color: #fdcb6e; }
-
-        /* --- TOAST --- */
-        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body data-theme="light">
 
-    <div id="preloader"><div class="loader"></div></div>
-    <div id="toast"></div>
-
     <nav class="navbar">
-        <div class="logo-area">
-            <div class="logo-img"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="nav-logo">
+            <i class="fa-solid fa-graduation-cap"></i>
             <span>DCET 2026</span>
         </div>
-        <div class="theme-toggle" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></div>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item active" onclick="showSection('predictor')">Predictor</div>
+            <div class="nav-item" onclick="showSection('colleges')">Colleges</div>
+            <div class="nav-item" onclick="showSection('study')">Study Material</div>
+            <div class="nav-item" onclick="showSection('leaderboard')">Leaderboard</div>
+            <div class="nav-item" onclick="showSection('chat')">Live Chat</div>
+        </div>
+        <div class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></div>
     </nav>
 
-    <div class="app-container" id="capture-area">
-        <h1>DCET PREDICTOR</h1>
-        <div class="signature">TRAINED BY ADITHYA 😎</div>
+    <div id="predictor" class="section-container active">
+        <div class="card">
+            <h1>DCET PREDICTOR</h1>
+            <div class="subtitle">TRAINED BY ADITHYA 😎</div>
 
-        <div class="input-group">
-            <label>Diploma CGPA</label>
-            <input type="number" id="cgpa" placeholder="e.g. 9.75" step="0.01" oninput="toPercent()">
-        </div>
-        <div class="swap-btn" title="Convert">⇅</div>
-        <div class="input-group">
-            <label>Diploma Percentage (%)</label>
-            <input type="number" id="percent" placeholder="e.g. 90.00" step="0.01" oninput="toCgpa()">
-        </div>
-        <div class="input-group">
-            <label style="display:flex; justify-content:space-between;">Expected Marks <span id="marks-val" style="color:var(--accent)">85</span></label>
-            <input type="number" id="marks" value="85" oninput="syncSlider(this.value)">
-            <div class="slider-wrapper">
-                <input type="range" id="marks-slider" min="0" max="100" value="85" oninput="syncInput(this.value)">
+            <div class="input-grid">
+                <div>
+                    <label>CGPA</label>
+                    <input type="number" id="cgpa" placeholder="e.g. 9.75" oninput="toPercent()">
+                </div>
+                <div>
+                    <label>Percentage (%)</label>
+                    <input type="number" id="percent" placeholder="e.g. 90.00" oninput="toCgpa()">
+                </div>
+                <div class="full-width">
+                    <label>Expected Marks (0-100)</label>
+                    <input type="number" id="marks" placeholder="85">
+                </div>
             </div>
-        </div>
 
-        <button class="primary-btn" onclick="predict()">PREDICT RANK 🚀</button>
+            <button class="primary-btn" onclick="predictRank()">CHECK MY RANK 🚀</button>
 
-        <div id="rank-card">
-            <div style="font-size:0.8rem; letter-spacing:2px; text-transform:uppercase;">Estimated Rank</div>
-            <div class="rank-big" id="rank-display">---</div>
-            <div>Merit Score: <b id="score-display">0.00</b></div>
-            <div style="margin-top:15px; display:flex; gap:10px;">
-                <button class="primary-btn" style="margin:0; background:#333;" onclick="downloadResult()"><i class="fa-solid fa-camera"></i> Save</button>
-            </div>
-        </div>
-
-        <div class="resources-grid">
-            <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="resource-card">
-                <div class="res-icon"><i class="fa-solid fa-book-open"></i></div>
-                <div class="res-title">Official Notes</div>
-            </a>
-            <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="resource-card">
-                <div class="res-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                <div class="res-title">Handwritten Notes</div>
-            </a>
-            <a href="https://t.me/dcet26" target="_blank" class="resource-card telegram-btn">
-                <div class="res-icon"><i class="fa-brands fa-telegram"></i></div>
-                <div class="res-title">Join DCET26 Army</div>
-            </a>
-        </div>
-    </div>
-
-    <div class="app-container" style="margin-top: 30px;">
-        <div class="poll-header"><i class="fa-solid fa-users"></i> Live Aspirant Board</div>
-        <div class="input-group">
-            <input type="text" id="poll-name" placeholder="Your Name">
-        </div>
-        <div class="input-group" style="display:flex; gap:10px;">
-            <select id="poll-branch">
-                <option value="CSE">CSE</option>
-                <option value="AIML">AIML</option>
-                <option value="EC">E&C</option>
-                <option value="MECH">Mech</option>
-                <option value="CIVIL">Civil</option>
-            </select>
-            <input type="number" id="poll-cgpa" placeholder="CGPA" step="0.01">
-        </div>
-        <button class="primary-btn" onclick="addStudent()">Join the List +</button>
-
-        <div class="poll-window" id="student-list">
-            <div class="student-row">
-                <div><div class="st-name">Adithya (Admin)</div><div class="st-branch">CSE</div></div>
-                <div class="st-cgpa">9.80</div>
-            </div>
-            <div class="student-row">
-                <div><div class="st-name">Rohan K.</div><div class="st-branch">AIML</div></div>
-                <div class="st-cgpa">9.25</div>
+            <div id="rank-display-area">
+                <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:2px;">Predicted Rank</div>
+                <div class="rank-big" id="rank-val">---</div>
+                <div style="margin-top:5px; opacity:0.8;">Merit Score: <b id="merit-val">0.00</b></div>
             </div>
         </div>
     </div>
 
-    <div id="college-section">
-        <div class="grid">
-            <div class="branch-col">
-                <div class="branch-title" style="color:#3498db"><i class="fa-solid fa-laptop-code"></i> CSE / ISE</div>
-                <div id="cse-list"></div>
+    <div id="colleges" class="section-container">
+        <div class="card">
+            <h1>COLLEGE LIST</h1>
+            <div class="subtitle">Based on your Predicted Rank</div>
+            <p style="text-align:center; color:var(--text-sec);"><i>Predict your rank first to see colleges!</i></p>
+            
+            <div id="college-list-content" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:15px; margin-top:20px;">
+                </div>
+        </div>
+    </div>
+
+    <div id="study" class="section-container">
+        <div class="card">
+            <h1>STUDY ZONE</h1>
+            <div class="subtitle">Notes, Syllabus & Community</div>
+            
+            <div class="resource-grid">
+                <a href="https://www.tttacademics.com/files/pdfs/static/DCET26_syllabus_with_marks.pdf" target="_blank" class="res-card">
+                    <div class="res-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="res-name">Syllabus 2026</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="res-card">
+                    <div class="res-icon"><i class="fa-solid fa-book"></i></div>
+                    <div class="res-name">Standard Notes</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="res-card">
+                    <div class="res-icon"><i class="fa-solid fa-pen-fancy"></i></div>
+                    <div class="res-name">Handwritten Notes</div>
+                </a>
+                <a href="https://t.me/dcet26" target="_blank" class="res-card" style="background:#0088cc; color:white; border:none;">
+                    <div class="res-icon" style="color:white;"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="res-name">Join Telegram</div>
+                </a>
             </div>
-            <div class="branch-col">
-                <div class="branch-title" style="color:#e84393"><i class="fa-solid fa-robot"></i> AIML / AIDS</div>
-                <div id="aiml-list"></div>
+        </div>
+    </div>
+
+    <div id="leaderboard" class="section-container">
+        <div class="card">
+            <h1>RANK LEADERBOARD</h1>
+            <div class="subtitle">Check where you stand among friends</div>
+
+            <div class="input-grid" style="background:var(--input-bg); padding:15px; border-radius:15px; margin-bottom:20px;">
+                <input type="text" id="lb-name" placeholder="Your Name">
+                <select id="lb-branch">
+                    <option>CSE</option><option>AIML</option><option>ECE</option><option>MECH</option><option>CIVIL</option>
+                </select>
+                <input type="number" id="lb-cgpa" placeholder="CGPA">
+                <input type="number" id="lb-marks" placeholder="Exp. Marks">
+                <button class="primary-btn full-width" style="margin-top:10px;" onclick="addToLeaderboard()">JOIN BOARD +</button>
             </div>
-            <div class="branch-col">
-                <div class="branch-title" style="color:#f1c40f"><i class="fa-solid fa-microchip"></i> E & C</div>
-                <div id="ec-list"></div>
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr><th>Rank</th><th>Name</th><th>Branch</th><th>Merit</th></tr>
+                </thead>
+                <tbody id="lb-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="chat" class="section-container">
+        <div class="card">
+            <h1>LIVE CHAT</h1>
+            <div class="subtitle">Discuss with Friends</div>
+            
+            <div class="chat-window" id="chat-box">
+                <div class="message msg-left"><b>Adithya (Bot):</b> Welcome to DCET 26 Chat! 👋</div>
+                <div class="message msg-left"><b>System:</b> Keep discussions polite.</div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="chat-msg" placeholder="Type a message...">
+                <button class="primary-btn" style="width:auto; margin:0;" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
 <script>
-    // --- 1. DATA & LOGIC ---
+    // --- NAVIGATION LOGIC ---
+    function showSection(id) {
+        document.querySelectorAll('.section-container').forEach(el => el.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Close mobile menu if open
+        if(window.innerWidth < 768) document.getElementById('navLinks').classList.remove('active');
+    }
+
+    function toggleMenu() {
+        document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById('theme-icon');
+        if (body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
+            icon.className = 'fa-solid fa-sun';
+        } else {
+            body.setAttribute('data-theme', 'light');
+            icon.className = 'fa-solid fa-moon';
+        }
+    }
+
+    // --- RANK DATA ---
+    const ranges = [
+        { min: 91.8, label: "1 - 10", maxRank: 10 },
+        { min: 90.6, label: "11 - 20", maxRank: 20 },
+        { min: 89.98, label: "21 - 30", maxRank: 30 },
+        { min: 89.5, label: "31 - 40", maxRank: 40 },
+        { min: 89.1, label: "41 - 50", maxRank: 50 },
+        { min: 88.3, label: "61 - 70", maxRank: 70 },
+        { min: 87.8, label: "81 - 90", maxRank: 90 },
+        { min: 86.9, label: "100 - 125", maxRank: 125 },
+        { min: 86.5, label: "126 - 150", maxRank: 150 },
+        { min: 85.5, label: "176 - 200", maxRank: 200 },
+        { min: 84.6, label: "200 - 250", maxRank: 250 },
+        { min: 82.7, label: "300 - 400", maxRank: 400 },
+        { min: 79.6, label: "500 - 750", maxRank: 750 },
+        { min: 75.6, label: "1000 - 1250", maxRank: 1250 },
+        { min: 67.9, label: "1750 - 3000", maxRank: 3000 },
+        { min: 0, label: "3000+", maxRank: 5000 }
+    ];
+
     const colleges = [
         { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
         { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
@@ -301,60 +329,11 @@
         { name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
         { name: "Dayananda Sagar", cse: 852, aiml: 707, ec: 954 },
         { name: "Bangalore Inst. Tech", cse: 867, aiml: 951, ec: 1276 },
-        { name: "BMS Inst. Tech", cse: 1708, aiml: 1945, ec: 1332 },
         { name: "Nitte Meenakshi", cse: 1649, aiml: 1389, ec: 2371 },
-        { name: "Sir MVIT", cse: 2073, aiml: 2708, ec: 5264 },
-        { name: "RNSIT", cse: 1824, aiml: 2390, ec: 2239 },
-        { name: "JSSATE", cse: 3619, aiml: 4134, ec: 2383 },
-        { name: "CMRIT", cse: 2974, aiml: 4194, ec: 3002 },
-        { name: "New Horizon", cse: 2133, aiml: 3917, ec: 2561 },
-        { name: "Vidya Vikas Mysore", cse: 4828, aiml: 6000, ec: 3514 }
+        { name: "Sir MVIT", cse: 2073, aiml: 2708, ec: 5264 }
     ];
 
-    const ranges = [
-        { min: 91.8, label: "1 - 10" }, { min: 90.6, label: "11 - 20" },
-        { min: 89.98, label: "21 - 30" }, { min: 89.5, label: "31 - 40" },
-        { min: 89.1, label: "41 - 50" }, { min: 89.0, label: "51 - 60" },
-        { min: 88.3, label: "61 - 70" }, { min: 88.0, label: "71 - 80" },
-        { min: 87.8, label: "81 - 90" }, { min: 87.6, label: "91 - 100" },
-        { min: 86.9, label: "100 - 125" }, { min: 86.5, label: "126 - 150" },
-        { min: 86.2, label: "151 - 175" }, { min: 85.5, label: "176 - 200" },
-        { min: 84.6, label: "200 - 250" }, { min: 84.0, label: "250 - 300" },
-        { min: 82.7, label: "300 - 400" }, { min: 81.5, label: "400 - 500" },
-        { min: 79.6, label: "500 - 750" }, { min: 77.6, label: "750 - 1000" },
-        { min: 75.6, label: "1000 - 1250" }, { min: 72.5, label: "1250 - 1750" },
-        { min: 67.9, label: "1750 - 3000" }, { min: 0, label: "3000+" }
-    ];
-
-    // --- 2. INIT ---
-    window.onload = function() {
-        setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 800);
-    };
-
-    function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById('theme-icon');
-        if (body.getAttribute('data-theme') === 'light') {
-            body.setAttribute('data-theme', 'dark');
-            icon.className = 'fa-solid fa-sun';
-            showToast("Dark Mode Activated 🌙");
-        } else {
-            body.setAttribute('data-theme', 'light');
-            icon.className = 'fa-solid fa-moon';
-            showToast("Light Mode Activated ☀️");
-        }
-    }
-
-    // --- 3. CORE FUNCTIONS ---
-    function syncInput(val) {
-        document.getElementById('marks').value = val;
-        document.getElementById('marks-val').innerText = val;
-        if(document.getElementById('percent').value) predict();
-    }
-    function syncSlider(val) {
-        document.getElementById('marks-slider').value = val;
-        document.getElementById('marks-val').innerText = val;
-    }
+    // --- PREDICTOR LOGIC ---
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -364,101 +343,122 @@
         if(!isNaN(v)) document.getElementById('cgpa').value = ((v + 7.5) / 10).toFixed(2);
     }
 
-    function predict() {
+    function predictRank() {
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
-        if(isNaN(p) || isNaN(m)) { showToast("Enter details!"); return; }
+        if(isNaN(p) || isNaN(m)) { alert("Enter details!"); return; }
 
-        let merit = (p / 2) + (m / 2);
-        let rankLabel = "3000+";
-        let maxRank = 5000;
+        let merit = (p/2) + (m/2);
+        let rankLabel = "5000+";
+        let rankVal = 5000;
 
         for(let r of ranges) {
             if(merit >= r.min) {
                 rankLabel = r.label;
-                let parts = r.label.split('-');
-                maxRank = parseInt(parts.length > 1 ? parts[1] : parts[0]);
+                rankVal = r.maxRank;
                 break;
             }
         }
 
-        if(maxRank <= 500) triggerConfetti();
-        document.getElementById('rank-display').innerText = rankLabel;
-        document.getElementById('score-display').innerText = merit.toFixed(2);
-        document.getElementById('rank-card').style.display = 'block';
-        renderColleges(maxRank);
-        document.getElementById('college-section').style.display = 'block';
+        document.getElementById('rank-val').innerText = rankLabel;
+        document.getElementById('merit-val').innerText = merit.toFixed(2);
+        document.getElementById('rank-display-area').style.display = 'block';
+
+        if(rankVal <= 500) {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
         
-        document.getElementById('rank-card').scrollIntoView({behavior: 'smooth'});
+        renderColleges(rankVal);
     }
 
     function renderColleges(rank) {
-        let cseH="", aimlH="", ecH="";
-        colleges.forEach(clg => {
-            cseH += getRow(clg.name, clg.cse, rank);
-            aimlH += getRow(clg.name, clg.aiml, rank);
-            ecH += getRow(clg.name, clg.ec, rank);
+        let html = "";
+        colleges.forEach(c => {
+            let status = "";
+            let color = "";
+            
+            if(rank <= c.cse) { status = "Safe for CSE"; color = "#00b894"; }
+            else if(rank <= c.ec) { status = "Safe for ECE"; color = "#fdcb6e"; }
+            
+            if(status) {
+                html += `
+                <div style="background:var(--input-bg); padding:15px; border-radius:10px; border-left:4px solid ${color}">
+                    <div style="font-weight:700">${c.name}</div>
+                    <div style="font-size:0.8rem; color:${color}">${status}</div>
+                </div>`;
+            }
         });
-        document.getElementById('cse-list').innerHTML = cseH || "<small>No safe options.</small>";
-        document.getElementById('aiml-list').innerHTML = aimlH || "<small>No safe options.</small>";
-        document.getElementById('ec-list').innerHTML = ecH || "<small>No safe options.</small>";
+        document.getElementById('college-list-content').innerHTML = html || "<p>No safe colleges found in Top 10 list.</p>";
     }
 
-    function getRow(name, cutoff, rank) {
-        if (rank > cutoff + (cutoff * 0.15)) return ""; 
-        let isSafe = rank <= cutoff;
-        return `
-            <div class="clg-item ${isSafe ? 'safe' : 'risk'}">
-                <div>${name}</div>
-                <div style="text-align:right">
-                    <div style="font-size:0.75rem; opacity:0.7">Cutoff: ${cutoff}</div>
-                    <div style="font-size:0.8rem; font-weight:700; color:${isSafe?'#00b894':'#fdcb6e'}">
-                        ${isSafe ? 'Safe' : 'Borderline'}
-                    </div>
-                </div>
-            </div>`;
-    }
+    // --- LEADERBOARD LOGIC (Simulation) ---
+    // Start with dummy data
+    let students = [
+        { name: "Adithya", branch: "CSE", merit: 91.5 },
+        { name: "Rahul", branch: "ECE", merit: 88.2 },
+        { name: "Priya", branch: "AIML", merit: 90.1 }
+    ];
 
-    // --- 4. POLL SYSTEM ---
-    function addStudent() {
-        let name = document.getElementById('poll-name').value;
-        let branch = document.getElementById('poll-branch').value;
-        let cgpa = document.getElementById('poll-cgpa').value;
-
-        if(!name || !cgpa) { showToast("Please fill all poll fields!"); return; }
-
-        let html = `
-            <div class="student-row">
-                <div><div class="st-name">${name}</div><div class="st-branch">${branch}</div></div>
-                <div class="st-cgpa">${cgpa}</div>
-            </div>
-        `;
-        let list = document.getElementById('student-list');
-        list.innerHTML = html + list.innerHTML;
+    function renderLeaderboard() {
+        // Sort by Merit (Desc)
+        students.sort((a,b) => b.merit - a.merit);
         
-        document.getElementById('poll-name').value = "";
-        document.getElementById('poll-cgpa').value = "";
-        showToast("Added to List! 🎉");
+        let html = "";
+        students.forEach((s, i) => {
+            let rankClass = i === 0 ? "top-rank" : "";
+            html += `
+            <tr class="leaderboard-row">
+                <td><span class="rank-badge ${rankClass}">#${i+1}</span></td>
+                <td style="font-weight:600">${s.name}</td>
+                <td>${s.branch}</td>
+                <td style="color:var(--accent); font-weight:700">${s.merit.toFixed(2)}</td>
+            </tr>`;
+        });
+        document.getElementById('lb-body').innerHTML = html;
     }
 
-    // --- 5. UTILS ---
-    function showToast(msg) {
-        let x = document.getElementById("toast");
-        x.innerText = msg; x.className = "show";
-        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    function addToLeaderboard() {
+        let n = document.getElementById('lb-name').value;
+        let b = document.getElementById('lb-branch').value;
+        let c = parseFloat(document.getElementById('lb-cgpa').value);
+        let m = parseFloat(document.getElementById('lb-marks').value);
+
+        if(!n || isNaN(c) || isNaN(m)) { alert("Fill all fields!"); return; }
+
+        let p = (c * 10) - 7.5;
+        let merit = (p/2) + (m/2);
+
+        students.push({ name: n, branch: b, merit: merit });
+        renderLeaderboard();
+        
+        // Clear inputs
+        document.getElementById('lb-name').value = "";
     }
-    function triggerConfetti() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    
+    // Init Leaderboard
+    renderLeaderboard();
+
+    // --- CHAT LOGIC ---
+    function sendMessage() {
+        let input = document.getElementById('chat-msg');
+        let msg = input.value;
+        if(!msg) return;
+
+        let box = document.getElementById('chat-box');
+        
+        // Add User Message
+        box.innerHTML += `<div class="message msg-right"><b>You:</b> ${msg}</div>`;
+        
+        // Auto Reply Simulation
+        setTimeout(() => {
+            box.innerHTML += `<div class="message msg-left"><b>Bot:</b> Nice point! Let's discuss in the Telegram group.</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 1000);
+
+        input.value = "";
+        box.scrollTop = box.scrollHeight;
     }
-    function downloadResult() {
-        html2canvas(document.getElementById("capture-area")).then(canvas => {
-            let link = document.createElement('a');
-            link.download = 'DCET_Rank.png';
-            link.href = canvas.toDataURL();
-            link.click();
-            showToast("Saved to Gallery! 📸");
-        });
-    }
+
 </script>
 
 </body>
