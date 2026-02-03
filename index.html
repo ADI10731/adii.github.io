@@ -12,15 +12,15 @@
     <style>
         :root {
             /* Light Theme */
-            --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --bg-grad: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             --glass-bg: rgba(255, 255, 255, 0.95);
-            --nav-bg: rgba(255, 255, 255, 0.9);
+            --nav-bg: rgba(255, 255, 255, 0.95);
             --text-main: #2d3436;
             --text-sec: #636e72;
-            --accent: #6c5ce7; /* Purple */
+            --accent: #6c5ce7;
             --accent-grad: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
             --card-border: rgba(255,255,255,0.8);
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
             --input-bg: #f1f2f6;
             --success: #00b894;
             --warning: #fdcb6e;
@@ -31,13 +31,13 @@
             /* Dark Theme */
             --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
             --glass-bg: rgba(30, 39, 46, 0.95);
-            --nav-bg: rgba(30, 39, 46, 0.9);
+            --nav-bg: rgba(30, 39, 46, 0.95);
             --text-main: #ffffff;
             --text-sec: #b2bec3;
-            --accent: #00d2d3; /* Cyan */
+            --accent: #00d2d3;
             --accent-grad: linear-gradient(135deg, #00d2d3 0%, #48dbfb 100%);
             --card-border: rgba(255,255,255,0.1);
-            --shadow: 0 15px 35px rgba(0,0,0,0.5);
+            --shadow: 0 15px 40px rgba(0,0,0,0.6);
             --input-bg: #1e272e;
         }
 
@@ -58,21 +58,22 @@
             background: var(--nav-bg); backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--card-border);
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; }
         .nav-logo i { background: var(--accent); color: white; padding: 8px; border-radius: 8px; }
         
-        .nav-links { display: flex; gap: 15px; }
-        .nav-item { cursor: pointer; font-weight: 700; font-size: 0.9rem; color: var(--text-sec); text-decoration: none; padding: 10px 15px; border-radius: 10px; transition: 0.2s; }
+        .nav-links { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 0; -ms-overflow-style: none; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        
+        .nav-item { cursor: pointer; font-weight: 700; font-size: 0.85rem; color: var(--text-sec); text-decoration: none; padding: 10px 16px; border-radius: 12px; white-space: nowrap; transition: 0.2s; }
         .nav-item:hover, .nav-item.active { background: var(--accent); color: white; transform: translateY(-2px); }
         
-        .theme-btn { cursor: pointer; font-size: 1.2rem; padding: 10px; border-radius: 50%; background: var(--input-bg); transition: 0.2s; }
-        .theme-btn:hover { transform: rotate(15deg); }
+        .theme-btn { cursor: pointer; font-size: 1.2rem; padding: 10px; border-radius: 50%; background: var(--input-bg); margin-left: 10px; }
 
         /* Mobile Menu */
         .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
-        @media (max-width: 850px) {
+        @media (max-width: 1000px) {
             .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: var(--glass-bg); flex-direction: column; padding: 20px; box-shadow: var(--shadow); border-bottom: 1px solid var(--card-border); }
             .nav-links.active { display: flex; }
             .menu-toggle { display: block; }
@@ -80,7 +81,7 @@
 
         /* --- SECTIONS --- */
         .section-container {
-            max-width: 1100px; margin: 100px auto 40px; padding: 0 20px;
+            max-width: 1200px; margin: 100px auto 40px; padding: 0 20px;
             display: none; animation: fadeIn 0.5s ease;
         }
         .section-container.active { display: block; }
@@ -91,10 +92,10 @@
             position: relative; overflow: hidden;
         }
 
-        h1 { text-align: center; font-weight: 900; font-size: 2.5rem; margin-bottom: 5px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h1 { text-align: center; font-weight: 900; font-size: 2.2rem; margin-bottom: 5px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { text-align: center; font-size: 0.9rem; font-weight: 700; opacity: 0.7; margin-bottom: 30px; letter-spacing: 1px; }
 
-        /* --- INPUTS --- */
+        /* --- PREDICTOR STYLES --- */
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
         @media (max-width: 600px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
@@ -113,50 +114,38 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-top: 20px; transition: transform 0.2s;
         }
         .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .primary-btn i { margin-left: 8px; }
 
         /* --- COLLEGE PREDICTOR --- */
-        .cp-header { background: var(--input-bg); padding: 20px; border-radius: 16px; margin-bottom: 30px; text-align: center; }
-        
-        .college-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .branch-column { background: var(--input-bg); border-radius: 16px; padding: 15px; border: 1px solid var(--card-border); }
-        .branch-head { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        .college-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .branch-column { background: var(--input-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--card-border); }
+        .branch-head { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); }
         
         .clg-card { 
-            background: var(--glass-bg); padding: 12px; border-radius: 10px; margin-bottom: 10px; 
-            border-left: 5px solid #ccc; transition: 0.2s;
+            background: var(--glass-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px; 
+            border-left: 5px solid #ccc; transition: 0.2s; position: relative;
         }
         .clg-card:hover { transform: translateX(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .clg-safe { border-left-color: var(--success); }
         .clg-mod { border-left-color: var(--warning); }
-        .clg-amb { border-left-color: var(--danger); opacity: 0.7; }
+        .clg-amb { border-left-color: var(--danger); opacity: 0.8; }
 
-        /* --- LEADERBOARD --- */
-        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .leaderboard-table th { text-align: left; color: var(--text-sec); padding: 15px; font-size: 0.8rem; text-transform: uppercase; border-bottom: 2px solid var(--input-bg); }
-        .leaderboard-row { background: var(--input-bg); border-radius: 10px; margin-bottom: 10px; display: table-row; }
-        .leaderboard-row td { padding: 15px; border-bottom: 1px solid var(--glass-bg); font-weight: 600; }
-        .rank-badge { background: var(--accent); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
-        .top-rank { background: #ffd700; color: #000; box-shadow: 0 0 10px #ffd700; }
+        .prob-badge {
+            position: absolute; top: 10px; right: 10px; font-size: 0.75rem; 
+            font-weight: 800; padding: 4px 8px; border-radius: 6px;
+        }
 
-        /* --- RESOURCES --- */
-        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .res-card {
+        /* --- COUNSELING GRID --- */
+        .counseling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .doc-card {
             background: var(--input-bg); padding: 25px; border-radius: 16px; text-align: center;
             text-decoration: none; color: var(--text-main); border: 2px solid transparent; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; height: 100%;
         }
-        .res-card:hover { border-color: var(--accent); transform: translateY(-5px); background: var(--glass-bg); }
-        .res-icon { font-size: 2.5rem; margin-bottom: 15px; color: var(--accent); }
-        .res-name { font-weight: 700; font-size: 1.1rem; }
-
-        /* --- CHAT --- */
-        .chat-window {
-            height: 400px; background: var(--input-bg); border-radius: 16px; padding: 20px;
-            overflow-y: auto; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--card-border);
-        }
-        .message { padding: 12px 18px; border-radius: 12px; max-width: 80%; font-size: 0.95rem; line-height: 1.4; animation: fadeIn 0.3s; }
-        .msg-left { align-self: flex-start; background: var(--glass-bg); border-bottom-left-radius: 0; border: 1px solid var(--card-border); }
-        .msg-right { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 0; }
-        .chat-input-area { display: flex; gap: 10px; margin-top: 15px; }
+        .doc-card:hover { border-color: var(--accent); transform: translateY(-5px); background: var(--glass-bg); }
+        .doc-icon { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); background: rgba(108, 92, 231, 0.1); padding: 15px; border-radius: 50%; }
+        .doc-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
+        .doc-desc { font-size: 0.85rem; opacity: 0.7; }
 
         /* --- RANK DISPLAY --- */
         #rank-display-area { display: none; text-align: center; margin-top: 30px; padding: 30px; background: var(--input-bg); border-radius: 20px; border: 2px solid var(--accent); }
@@ -175,10 +164,11 @@
         <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <div class="nav-links" id="navLinks">
             <div class="nav-item active" onclick="showSection('predictor')">Rank Predictor</div>
-            <div class="nav-item" onclick="showSection('college-predictor')">College Predictor</div>
+            <div class="nav-item" onclick="showSection('counseling')">Counseling Process</div>
+            <div class="nav-item" onclick="showSection('college-predictor')">College Finder</div>
             <div class="nav-item" onclick="showSection('study')">Study Material</div>
-            <div class="nav-item" onclick="showSection('leaderboard')">Leaderboard</div>
-            <div class="nav-item" onclick="showSection('chat')">Live Chat</div>
+            <div class="nav-item" onclick="showSection('top50')">Top Colleges</div>
+            <div class="nav-item" onclick="showSection('ai-help')">AI Help 🤖</div>
         </div>
         <div class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></div>
     </nav>
@@ -208,19 +198,67 @@
             <div id="rank-display-area">
                 <div style="font-size:0.9rem; text-transform:uppercase; letter-spacing:2px; font-weight:700; color:var(--text-sec);">Predicted Rank Range</div>
                 <div class="rank-big" id="rank-val">---</div>
-                <div style="font-size:1.1rem;">Merit Score: <b id="merit-val" style="color:var(--accent);">0.00</b></div>
-                <button class="primary-btn" style="width:auto; padding:10px 20px; font-size:0.9rem; margin-top:15px; background:var(--text-main);" onclick="goToCollegePredictor()">See Eligible Colleges &rarr;</button>
+                <div style="font-size:1.1rem; margin-bottom:20px;">Merit Score: <b id="merit-val" style="color:var(--accent);">0.00</b></div>
+                
+                <button class="primary-btn" style="width:auto; padding:12px 25px; margin:0; background: var(--accent-grad); color: white !important;" onclick="goToCollegePredictor()">
+                    See Eligible Colleges &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="counseling" class="section-container">
+        <div class="card">
+            <h1>COUNSELING PROCESS</h1>
+            <div class="subtitle">Essential Documents & Links for 2025-26</div>
+            
+            <div class="counseling-grid">
+                <a href="https://www.tttacademics.com/files/pdfs/static/Draft%20seat%20matrix.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-table-list"></i></div>
+                    <div class="doc-title">Seat Matrix</div>
+                    <div class="doc-desc">Check available seats per college</div>
+                </a>
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/dcet_2025_result_r_english.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="doc-title">Prev. Year Cutoff</div>
+                    <div class="doc-desc">Official 2025 Rank Cutoffs</div>
+                </a>
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/Document_Verification_Centers_Listenglish.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-building-circle-check"></i></div>
+                    <div class="doc-title">Verification Centers</div>
+                    <div class="doc-desc">List of Offline Centers</div>
+                </a>
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/DRESSCODE_KEA_KAN_2025english.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-shirt"></i></div>
+                    <div class="doc-title">Exam Dress Code</div>
+                    <div class="doc-desc">Strict KEA Guidelines</div>
+                </a>
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/Bell_Timings_Diploma_2025_englishenglish.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-regular fa-clock"></i></div>
+                    <div class="doc-title">Bell Timings</div>
+                    <div class="doc-desc">Exam Hall Schedule</div>
+                </a>
+                <a href="https://www.tttacademics.com/files/pdfs/static/DCET%20Course%20Code.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-list-ol"></i></div>
+                    <div class="doc-title">Course Codes</div>
+                    <div class="doc-desc">For Option Entry</div>
+                </a>
+                <a href="https://www.tttacademics.com/files/pdfs/static/DCET%20-25%20tentative%20Fees.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div class="doc-title">College Fees</div>
+                    <div class="doc-desc">Tentative Fee Structure</div>
+                </a>
             </div>
         </div>
     </div>
 
     <div id="college-predictor" class="section-container">
         <div class="card">
-            <h1>COLLEGE PREDICTOR</h1>
-            <div class="subtitle">Find your Dream College</div>
+            <h1>COLLEGE FINDER</h1>
+            <div class="subtitle">With Win Probability</div>
             
-            <div class="cp-header">
-                <label>Enter Your Rank (Manual or Predicted)</label>
+            <div style="background:var(--input-bg); padding:20px; border-radius:16px; margin-bottom:30px; text-align:center;">
+                <label>Enter Your Rank</label>
                 <div style="display:flex; gap:10px; max-width:400px; margin:10px auto;">
                     <input type="number" id="cp-rank" placeholder="e.g. 150">
                     <button class="primary-btn" style="margin:0; width:auto;" onclick="runCollegePredictor()">Find</button>
@@ -244,96 +282,76 @@
         </div>
     </div>
 
+    <div id="ai-help" class="section-container">
+        <div class="card">
+            <h1>AI COMMAND CENTER</h1>
+            <div class="subtitle">Smart Tools for Study</div>
+            <div class="counseling-grid">
+                <a href="https://gemini.google.com/" target="_blank" class="doc-card">
+                    <div class="doc-icon" style="color:#4285F4; background:rgba(66,133,244,0.1)">✨</div>
+                    <div class="doc-title">Google Gemini</div>
+                </a>
+                <a href="https://chatgpt.com/" target="_blank" class="doc-card">
+                    <div class="doc-icon" style="color:#10a37f; background:rgba(16,163,127,0.1)">🧠</div>
+                    <div class="doc-title">ChatGPT</div>
+                </a>
+                <a href="https://www.meta.ai/" target="_blank" class="doc-card">
+                    <div class="doc-icon" style="color:#0668E1; background:rgba(6,104,225,0.1)">♾️</div>
+                    <div class="doc-title">Meta AI</div>
+                </a>
+                <a href="https://manus.ai/" target="_blank" class="doc-card">
+                    <div class="doc-icon" style="color:#8e44ad; background:rgba(142,68,173,0.1)">🔮</div>
+                    <div class="doc-title">Manus AI</div>
+                </a>
+                <a href="https://www.perplexity.ai/" target="_blank" class="doc-card">
+                    <div class="doc-icon" style="color:#2d3436; background:rgba(0,0,0,0.1)">🔎</div>
+                    <div class="doc-title">Perplexity</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div id="study" class="section-container">
         <div class="card">
             <h1>STUDY ZONE</h1>
-            <div class="subtitle">Resources & Community</div>
-            
-            <div class="resource-grid">
-                <a href="https://www.tttacademics.com/files/pdfs/static/DCET26_syllabus_with_marks.pdf" target="_blank" class="res-card">
-                    <div class="res-icon"><i class="fa-solid fa-file-contract"></i></div>
-                    <div class="res-name">Official Syllabus</div>
+            <div class="subtitle">Resources & Links</div>
+            <div class="counseling-grid">
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/dcet_attachmentkannada.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="doc-title">Official Syllabus</div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="res-card">
-                    <div class="res-icon"><i class="fa-solid fa-book-open"></i></div>
-                    <div class="res-name">Notes Archive</div>
+                <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="doc-title">Notes Archive</div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="res-card">
-                    <div class="res-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                    <div class="res-name">Handwritten Notes</div>
-                </a>
-                <a href="https://t.me/dcet26" target="_blank" class="res-card" style="background: linear-gradient(135deg, #0088cc 0%, #005f8f 100%); color:white; border:none;">
-                    <div class="res-icon" style="color:white;"><i class="fa-brands fa-telegram"></i></div>
-                    <div class="res-name">Join Telegram</div>
+                <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                    <div class="doc-title">Handwritten Notes</div>
                 </a>
             </div>
         </div>
     </div>
 
-    <div id="leaderboard" class="section-container">
+    <div id="top50" class="section-container">
         <div class="card">
-            <h1>RANK LEADERBOARD</h1>
-            <div class="subtitle">Compete with Aspirants</div>
-
-            <div class="input-grid" style="background:var(--input-bg); padding:20px; border-radius:16px; margin-bottom:25px;">
-                <div class="full-width"><h3 style="margin:0 0 10px 0;">Add Your Score</h3></div>
-                <input type="text" id="lb-name" placeholder="Your Name">
-                <select id="lb-branch">
-                    <option>CSE</option><option>AIML</option><option>ECE</option><option>MECH</option><option>CIVIL</option>
-                </select>
-                <input type="number" id="lb-cgpa" placeholder="CGPA" step="0.01">
-                <input type="number" id="lb-marks" placeholder="Exp. Marks">
-                <div class="full-width">
-                    <button class="primary-btn" style="margin-top:5px;" onclick="addToLeaderboard()">JOIN BOARD +</button>
-                </div>
-            </div>
-
-            <div style="overflow-x:auto;">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr><th>Rank</th><th>Name</th><th>Branch</th><th>Merit Score</th></tr>
-                    </thead>
-                    <tbody id="lb-body">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="chat" class="section-container">
-        <div class="card">
-            <h1>LIVE CHAT</h1>
-            <div class="subtitle">Discuss with Friends</div>
-            
-            <div class="chat-window" id="chat-box">
-                <div class="message msg-left"><b>Adithya (Admin):</b> Welcome to the DCET 2026 Discussion! 🚀</div>
-                <div class="message msg-left"><b>System:</b> Share your doubts and strategies here.</div>
-            </div>
-            
-            <div class="chat-input-area">
-                <input type="text" id="chat-msg" placeholder="Type a message...">
-                <button class="primary-btn" style="width:auto; margin:0; padding:0 25px;" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
+            <h1>TOP 50 COLLEGES</h1>
+            <div class="subtitle">Scroll to explore</div>
+            <div id="top-50-list" style="height:400px; overflow-y:auto; padding-right:10px;"></div>
         </div>
     </div>
 
 <script>
-    // --- NAVIGATION ---
+    // --- NAVIGATION LOGIC ---
     function showSection(id) {
         document.querySelectorAll('.section-container').forEach(el => el.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        // Highlight active nav item manually based on ID matching logic
-        
-        // Mobile menu close
-        if(window.innerWidth < 850) document.getElementById('navLinks').classList.remove('active');
+        event.currentTarget.classList.add('active');
+        if(window.innerWidth < 1000) document.getElementById('navLinks').classList.remove('active');
         window.scrollTo(0, 0);
     }
 
-    function toggleMenu() {
-        document.getElementById('navLinks').classList.toggle('active');
-    }
+    function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
     function toggleTheme() {
         const body = document.body;
@@ -381,7 +399,7 @@
         { min: 67.9, label: "1750 - 3000", val: 3000 }, { min: 0, label: "3000+", val: 5000 }
     ];
 
-    // --- PREDICTOR LOGIC ---
+    // --- LOGIC ---
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -411,13 +429,9 @@
         document.getElementById('rank-val').innerText = rankLabel;
         document.getElementById('merit-val').innerText = merit.toFixed(2);
         document.getElementById('rank-display-area').style.display = 'block';
-        
-        // Auto-fill College Predictor
         document.getElementById('cp-rank').value = rankVal;
         
-        if(rankVal <= 500) {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        }
+        if(rankVal <= 500) { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } }); }
     }
 
     function goToCollegePredictor() {
@@ -425,7 +439,6 @@
         runCollegePredictor();
     }
 
-    // --- COLLEGE PREDICTOR ---
     function runCollegePredictor() {
         let rank = parseInt(document.getElementById('cp-rank').value);
         if(isNaN(rank)) { alert("Enter a rank first!"); return; }
@@ -443,82 +456,69 @@
     }
 
     function getCard(name, cutoff, rank) {
-        if(rank > cutoff * 1.20) return ""; // Hide if > 20% off
+        if(rank > cutoff * 1.5) return "";
         
         let cls = "clg-card";
         let status = "Safe";
-        if(rank <= cutoff) { cls += " clg-safe"; status = "Safe"; }
-        else if(rank <= cutoff * 1.15) { cls += " clg-mod"; status = "Borderline"; }
-        else { cls += " clg-amb"; status = "Ambitious"; }
+        let color = "#00b894";
+        let prob = 0;
+
+        // Probability Calculation logic
+        if(rank <= cutoff) {
+             cls += " clg-safe"; status = "Safe"; color = "#00b894";
+             // 90% to 99% based on how low rank is compared to cutoff
+             prob = 90 + Math.round(((cutoff - rank)/cutoff) * 9); 
+        } else if(rank <= cutoff * 1.15) {
+             cls += " clg-mod"; status = "Borderline"; color = "#fdcb6e";
+             // 40% to 60%
+             prob = 40 + Math.round(((cutoff * 1.15 - rank)/(cutoff * 0.15)) * 20);
+        } else {
+             cls += " clg-amb"; status = "Ambitious"; color = "#ff7675";
+             // < 20%
+             prob = Math.max(1, 20 - Math.round(((rank - cutoff * 1.15)/rank) * 100));
+        }
+
+        if(prob > 99) prob = 99;
 
         return `
         <div class="${cls}">
-            <div style="font-weight:700">${name}</div>
+            <div class="prob-badge" style="background:${color}20; color:${color}">${prob}% Chance</div>
+            <div style="font-weight:700; padding-right:60px;">${name}</div>
             <div style="display:flex; justify-content:space-between; margin-top:5px; font-size:0.8rem;">
                 <span style="opacity:0.7">Cutoff: ${cutoff}</span>
-                <span style="font-weight:700">${status}</span>
+                <span style="font-weight:700; color:${color}">${status}</span>
             </div>
         </div>`;
     }
 
-    // --- LEADERBOARD ---
-    let students = [
-        { name: "Adithya (Admin)", branch: "CSE", merit: 92.5 },
-        { name: "Rohan K.", branch: "ECE", merit: 89.1 },
-        { name: "Sneha P.", branch: "AIML", merit: 90.5 }
+    // --- TOP 50 LIST GENERATOR ---
+    const topCollegesList = [
+        "RV College of Engineering (RVCE)", "BMS College of Engineering (BMSCE)", "PES University (PESU) - RR", "MS Ramaiah (MSRIT)", "UVCE Bangalore",
+        "Bangalore Institute of Technology (BIT)", "Dayananda Sagar (DSCE)", "NIE Mysore", "SJCE Mysore (JSS)", "PES University (EC Campus)",
+        "BMS Institute of Tech (BMSIT)", "Nitte Meenakshi (NMIT)", "RNS Institute of Tech (RNSIT)", "Sir M Visvesvaraya (Sir MVIT)", "JSS Academy (JSSATE)",
+        "BNM Institute (BNMIT)", "Siddaganga (SIT) Tumkur", "New Horizon (NHCE)", "CMR Institute (CMRIT)", "Acharya Institute (AIT)",
+        "Global Academy (GAT)", "MVJ College of Engineering", "Reva University", "KLE Tech University Hubli", "Sahyadri Mangalore",
+        "Canara Engineering College", "St. Joseph Engineering College", "Vidya Vikas Mysore", "Malnad College (MCE) Hassan", "PDA College Gulbarga",
+        "Basaveshwar Engg College (BEC)", "SDM Dharwad", "Oxford College", "Cambridge Institute", "East West Institute",
+        "City Engineering College", "Dr. AIT", "Sapthagiri College", "KS Institute (KSIT)", "Don Bosco Institute",
+        "Atria Institute", "HKBK College", "Presidency University", "Alliance University", "Jain University",
+        "Christ University", "SJBIT Bangalore", "GSSS Mysore", "Bapuji Davanagere", "UBDT Davanagere"
     ];
 
-    function addToLeaderboard() {
-        let n = document.getElementById('lb-name').value;
-        let b = document.getElementById('lb-branch').value;
-        let c = parseFloat(document.getElementById('lb-cgpa').value);
-        let m = parseFloat(document.getElementById('lb-marks').value);
+    const listContainer = document.getElementById('top-50-list');
+    let listHTML = "";
+    topCollegesList.forEach((name, index) => {
+        listHTML += `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:15px; margin-bottom:10px; border-radius:12px;">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <div style="font-size:1.2rem; font-weight:900; color:var(--accent); min-width:40px;">#${index + 1}</div>
+                <div style="font-weight:600;">${name}</div>
+            </div>
+            <div style="color:var(--text-sec);"><i class="fa-solid fa-angle-right"></i></div>
+        </div>`;
+    });
+    listContainer.innerHTML = listHTML;
 
-        if(!n || isNaN(c) || isNaN(m)) { alert("Fill all fields!"); return; }
-
-        let p = (c * 10) - 7.5;
-        let merit = (p/2) + (m/2);
-
-        students.push({ name: n, branch: b, merit: merit });
-        renderLeaderboard();
-        
-        // Clear
-        document.getElementById('lb-name').value = "";
-    }
-
-    function renderLeaderboard() {
-        students.sort((a,b) => b.merit - a.merit);
-        let html = "";
-        students.forEach((s, i) => {
-            let cls = i === 0 ? "top-rank" : "";
-            html += `
-            <tr class="leaderboard-row">
-                <td><span class="rank-badge ${cls}">#${i+1}</span></td>
-                <td>${s.name}</td>
-                <td>${s.branch}</td>
-                <td style="color:var(--accent); font-weight:800;">${s.merit.toFixed(2)}</td>
-            </tr>`;
-        });
-        document.getElementById('lb-body').innerHTML = html;
-    }
-    renderLeaderboard();
-
-    // --- CHAT ---
-    function sendMessage() {
-        let input = document.getElementById('chat-msg');
-        let msg = input.value;
-        if(!msg) return;
-
-        let box = document.getElementById('chat-box');
-        box.innerHTML += `<div class="message msg-right"><b>You:</b> ${msg}</div>`;
-        input.value = "";
-        box.scrollTop = box.scrollHeight;
-
-        setTimeout(() => {
-            box.innerHTML += `<div class="message msg-left"><b>Bot:</b> Great question! Check the Syllabus section for more info.</div>`;
-            box.scrollTop = box.scrollHeight;
-        }, 1500);
-    }
 </script>
 
 </body>
