@@ -4,214 +4,230 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DCET 2026 Ultimate Predictor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
-            --text-dark: #2d3436;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            /* Light Theme Variables */
+            --bg-grad: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --text-main: #2d3436;
+            --text-sec: #636e72;
+            --accent: #6c5ce7;
+            --card-border: rgba(255,255,255,0.6);
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --input-bg: #f1f2f6;
         }
 
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --glass-bg: rgba(30, 39, 46, 0.85);
+            --text-main: #ffffff;
+            --text-sec: #b2bec3;
+            --accent: #00d2d3;
+            --card-border: rgba(255,255,255,0.1);
+            --shadow: 0 15px 35px rgba(0,0,0,0.5);
+            --input-bg: #2d3436;
+        }
+
+        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
-            min-height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-grad);
             margin: 0;
-            padding: 20px;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-dark);
-            overflow-x: hidden;
         }
 
-        .container {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            width: 100%;
-            max-width: 550px;
-            padding: 2.5rem;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.6);
-            animation: slideIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s;
+        }
+        .loader { width: 50px; height: 50px; border: 5px solid #ddd; border-top-color: #6c5ce7; border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            width: 100%; padding: 20px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px); background: rgba(0,0,0,0.05);
+            position: fixed; top: 0; z-index: 100;
+        }
+        
+        .logo-area {
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 900; font-size: 1.2rem;
+        }
+        .logo-img {
+            width: 40px; height: 40px; border-radius: 8px;
+            background: var(--accent); display: flex; align-items: center; justify-content: center; color: white;
+        }
+
+        .theme-toggle {
+            cursor: pointer; font-size: 1.5rem; color: var(--text-main);
+            background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 50%;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .app-container {
+            margin-top: 100px;
+            width: 100%; max-width: 550px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 2.5rem; border-radius: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
             position: relative;
         }
 
         h1 {
-            text-align: center;
-            font-weight: 800;
-            font-size: 2rem;
-            margin: 0;
-            background: linear-gradient(to right, #6c5ce7, #fd79a8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-align: center; font-weight: 900; font-size: 2.2rem; margin: 0;
+            background: linear-gradient(90deg, #6c5ce7, #00d2d3);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .creator-badge {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .creator-badge span {
-            background: #6c5ce7;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        .signature {
+            text-align: center; margin-bottom: 25px; font-size: 0.8rem;
+            font-weight: 700; letter-spacing: 1px; opacity: 0.8;
         }
 
-        .input-group { margin-bottom: 1.5rem; }
-        label { font-size: 0.9rem; font-weight: 600; color: #636e72; display: block; margin-bottom: 5px; }
+        /* --- INPUTS --- */
+        .input-group { margin-bottom: 20px; }
+        label { font-size: 0.9rem; font-weight: 600; color: var(--text-sec); display: block; margin-bottom: 8px; }
         
         input[type="number"] {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #dfe6e9;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: 0.3s;
-            box-sizing: border-box;
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: var(--input-bg); color: var(--text-main);
+            font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
-        input[type="number"]:focus { border-color: var(--primary); outline: none; background: #fff; }
+        input:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
 
-        /* SLIDER STYLES */
-        .slider-container { margin-top: 10px; }
+        .slider-wrapper { margin-top: 10px; }
         input[type="range"] {
-            width: 100%;
-            -webkit-appearance: none;
-            height: 8px;
-            border-radius: 5px;
-            background: #dfe6e9;
-            outline: none;
-            transition: 0.2s;
+            width: 100%; height: 6px; border-radius: 5px; background: #dfe6e9; outline: none; -webkit-appearance: none;
         }
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+            -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+            background: var(--accent); cursor: pointer; box-shadow: 0 0 10px var(--accent);
         }
 
-        .swap-icon { text-align: center; font-size: 1.4rem; color: #b2bec3; cursor: pointer; margin: -10px 0; }
-        .swap-icon:hover { color: var(--primary); transform: scale(1.1); }
+        .swap-btn {
+            text-align: center; margin: -10px 0; cursor: pointer; color: var(--text-sec); font-size: 1.2rem;
+        }
+        .swap-btn:hover { color: var(--accent); transform: scale(1.1); }
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
+        /* --- BUTTONS --- */
+        .primary-btn {
+            width: 100%; padding: 18px; border: none; border-radius: 14px;
             background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
-            margin-top: 15px;
+            color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); margin-top: 10px;
+            position: relative; overflow: hidden;
         }
-        button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(108, 92, 231, 0.4); }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4); }
+        .primary-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: 0.5s;
+        }
+        .primary-btn:hover::after { left: 100%; }
 
-        /* RANK CARD */
-        #rank-box {
-            display: none;
-            margin-top: 2rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            position: relative;
-            overflow: hidden;
+        .action-row { display: flex; gap: 10px; margin-top: 20px; }
+        .icon-btn {
+            flex: 1; padding: 12px; border: none; border-radius: 10px;
+            background: var(--input-bg); color: var(--text-main); font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        
-        .rank-title { font-size: 0.8rem; letter-spacing: 2px; color: #b2bec3; font-weight: 700; }
-        .rank-val { 
-            font-size: 3.5rem; 
-            font-weight: 900; 
-            margin: 5px 0;
-            background: linear-gradient(45deg, #0984e3, #e84393);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .secondary-btn {
-            background: #dfe6e9;
-            color: #2d3436;
-            box-shadow: none;
-            font-size: 0.9rem;
-            padding: 12px;
-        }
-        .secondary-btn:hover { background: #b2bec3; transform: translateY(-2px); }
+        .icon-btn:hover { background: var(--text-sec); color: white; }
 
-        /* COLLEGE GRID */
+        /* --- RESULTS --- */
+        #rank-card {
+            display: none; margin-top: 30px; text-align: center;
+            background: var(--input-bg); padding: 2rem; border-radius: 20px;
+            border: 2px solid var(--accent); animation: popIn 0.5s ease;
+        }
+        .rank-big {
+            font-size: 3.5rem; font-weight: 900; margin: 10px 0;
+            background: linear-gradient(45deg, var(--accent), #ff7675);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* --- COLLEGE LIST --- */
         #college-section {
-            display: none;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 40px;
-            animation: fadeIn 1s ease;
+            display: none; width: 100%; max-width: 1100px; margin: 40px 0;
+            padding: 0 20px;
         }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         
-        .col-card {
-            background: rgba(255,255,255,0.8);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.5);
+        .branch-col {
+            background: var(--glass-bg); padding: 1.5rem; border-radius: 20px;
+            border: 1px solid var(--card-border);
         }
-        .branch-head { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        
+        .branch-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+
         .clg-item {
-            background: white;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 4px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-            transition: 0.2s;
+            background: var(--input-bg); padding: 12px; border-radius: 10px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 4px solid #555;
         }
-        .clg-item:hover { transform: translateX(5px); }
         .safe { border-left-color: #00b894; }
         .risk { border-left-color: #fdcb6e; }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- TOAST --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 1000;
+            left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 1rem;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-    <div class="container" id="main-interface">
-        <h1>DCET 2026 Predictor</h1>
-        <div class="creator-badge"><span>TRAINED BY ADITHYA 😎</span></div>
+    <div id="preloader"><div class="loader"></div></div>
+
+    <div id="toast">Message</div>
+
+    <nav class="navbar">
+        <div class="logo-area">
+            <div class="logo-img"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span>DCET PREDICTOR</span>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </div>
+    </nav>
+
+    <div class="app-container" id="capture-area">
+        <h1>DCET 2026</h1>
+        <div class="signature">TRAINED BY ADITHYA 😎</div>
 
         <div class="input-group">
             <label>Diploma CGPA</label>
             <input type="number" id="cgpa" placeholder="e.g. 9.75" step="0.01" oninput="toPercent()">
         </div>
 
-        <div class="swap-icon" title="Swap">⇅</div>
+        <div class="swap-btn" title="Convert">⇅</div>
 
         <div class="input-group">
             <label>Diploma Percentage (%)</label>
@@ -219,45 +235,51 @@
         </div>
 
         <div class="input-group">
-            <label>Expected Marks: <span id="marks-val" style="color:var(--primary)">85</span></label>
-            <input type="number" id="marks" value="85" max="100" oninput="syncSlider(this.value)">
-            <div class="slider-container">
+            <label style="display:flex; justify-content:space-between;">
+                Expected Marks 
+                <span id="marks-val" style="color:var(--accent)">85</span>
+            </label>
+            <input type="number" id="marks" value="85" oninput="syncSlider(this.value)">
+            <div class="slider-wrapper">
                 <input type="range" id="marks-slider" min="0" max="100" value="85" oninput="syncInput(this.value)">
             </div>
         </div>
 
-        <button onclick="predict()">🔮 PREDICT RANK</button>
+        <button class="primary-btn" onclick="predict()">PREDICT RANK 🚀</button>
 
-        <div id="rank-box">
-            <div class="rank-title">ESTIMATED RANK</div>
-            <div class="rank-val" id="rank-display">---</div>
-            <div style="color:#636e72; font-size:0.9rem;">Merit Score: <b id="score-display">0.00</b></div>
+        <div id="rank-card">
+            <div style="font-size:0.9rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-sec)">Estimated Rank</div>
+            <div class="rank-big" id="rank-display">---</div>
+            <div style="font-size:0.9rem; margin-bottom:15px;">Merit Score: <b id="score-display">0.00</b></div>
             
-            <div class="action-buttons">
-                <button class="secondary-btn" onclick="downloadReport()">📸 Download Result</button>
+            <div class="action-row">
+                <button class="icon-btn" onclick="downloadResult()"><i class="fa-solid fa-camera"></i> Save</button>
+                <button class="icon-btn" onclick="shareResult()"><i class="fa-solid fa-share-nodes"></i> Share</button>
             </div>
         </div>
     </div>
 
     <div id="college-section">
         <div class="grid">
-            <div class="col-card">
-                <div class="branch-head" style="color:#0984e3">💻 CSE / ISE</div>
+            <div class="branch-col">
+                <div class="branch-title" style="color:#3498db"><i class="fa-solid fa-laptop-code"></i> CSE / ISE</div>
                 <div id="cse-list"></div>
             </div>
-            <div class="col-card">
-                <div class="branch-head" style="color:#e84393">🤖 AIML / AIDS</div>
+            <div class="branch-col">
+                <div class="branch-title" style="color:#e84393"><i class="fa-solid fa-robot"></i> AIML / AIDS</div>
                 <div id="aiml-list"></div>
             </div>
-            <div class="col-card">
-                <div class="branch-head" style="color:#fdcb6e">📡 E & C</div>
+            <div class="branch-col">
+                <div class="branch-title" style="color:#f1c40f"><i class="fa-solid fa-microchip"></i> E & C</div>
                 <div id="ec-list"></div>
             </div>
         </div>
     </div>
 
 <script>
-    // --- DATA ---
+    // --- APP LOGIC ---
+
+    // 1. Data Sources
     const colleges = [
         { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
         { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
@@ -292,11 +314,37 @@
         { min: 67.9, label: "1750 - 3000" }, { min: 0, label: "3000+" }
     ];
 
-    // --- LOGIC ---
+    // 2. Preloader
+    window.onload = function() {
+        setTimeout(() => {
+            document.getElementById('preloader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('preloader').style.display = 'none';
+            }, 500);
+        }, 1000);
+    };
+
+    // 3. Theme Toggle
+    function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById('theme-icon');
+        if (body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            showToast("Switched to Dark Mode 🌙");
+        } else {
+            body.setAttribute('data-theme', 'light');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            showToast("Switched to Light Mode ☀️");
+        }
+    }
+
+    // 4. Input Logic
     function syncInput(val) {
         document.getElementById('marks').value = val;
         document.getElementById('marks-val').innerText = val;
-        // Auto-predict if data exists
         if(document.getElementById('percent').value) predict();
     }
     function syncSlider(val) {
@@ -313,20 +361,20 @@
         if(!isNaN(v)) document.getElementById('cgpa').value = ((v + 7.5) / 10).toFixed(2);
     }
 
+    // 5. Prediction Logic
     function predict() {
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
 
-        if(isNaN(p) || isNaN(m)) return; 
+        if(isNaN(p) || isNaN(m)) { showToast("Please enter values first!"); return; }
 
-        // Merit
         let merit = (p / 2) + (m / 2);
         
-        // Rank
         let rankLabel = "3000+";
         let maxRank = 5000;
-        for (let r of ranges) {
-            if (merit >= r.min) {
+
+        for(let r of ranges) {
+            if(merit >= r.min) {
                 rankLabel = r.label;
                 let parts = r.label.split('-');
                 maxRank = parseInt(parts.length > 1 ? parts[1] : parts[0]);
@@ -334,68 +382,79 @@
             }
         }
 
-        // Trigger Confetti if Rank < 500
-        if (maxRank <= 500) triggerConfetti();
+        if(maxRank <= 500) triggerConfetti();
 
-        // Update UI
         document.getElementById('rank-display').innerText = rankLabel;
         document.getElementById('score-display').innerText = merit.toFixed(2);
-        document.getElementById('rank-box').style.display = 'block';
-
+        document.getElementById('rank-card').style.display = 'block';
+        
         renderColleges(maxRank);
+        document.getElementById('college-section').style.display = 'block';
         
         // Scroll slightly
-        if(window.innerWidth < 768) {
-             document.getElementById('college-section').style.display = 'block';
-             document.getElementById('college-section').scrollIntoView({behavior: 'smooth'});
-        } else {
-             document.getElementById('college-section').style.display = 'block';
-        }
+        window.scrollBy({ top: 300, behavior: 'smooth' });
     }
 
     function renderColleges(rank) {
-        let cseHtml = "", aimlHtml = "", ecHtml = "";
+        let cseH="", aimlH="", ecH="";
         colleges.forEach(clg => {
-            cseHtml += getCard(clg.name, clg.cse, rank);
-            aimlHtml += getCard(clg.name, clg.aiml, rank);
-            ecHtml += getCard(clg.name, clg.ec, rank);
+            cseH += getRow(clg.name, clg.cse, rank);
+            aimlH += getRow(clg.name, clg.aiml, rank);
+            ecH += getRow(clg.name, clg.ec, rank);
         });
-        document.getElementById('cse-list').innerHTML = cseHtml || "<small>No safe colleges found.</small>";
-        document.getElementById('aiml-list').innerHTML = aimlHtml || "<small>No safe colleges found.</small>";
-        document.getElementById('ec-list').innerHTML = ecHtml || "<small>No safe colleges found.</small>";
+        document.getElementById('cse-list').innerHTML = cseH || "<small>No safe colleges.</small>";
+        document.getElementById('aiml-list').innerHTML = aimlH || "<small>No safe colleges.</small>";
+        document.getElementById('ec-list').innerHTML = ecH || "<small>No safe colleges.</small>";
     }
 
-    function getCard(name, cutoff, rank) {
+    function getRow(name, cutoff, rank) {
         if (rank > cutoff + (cutoff * 0.15)) return ""; 
         let isSafe = rank <= cutoff;
         return `
             <div class="clg-item ${isSafe ? 'safe' : 'risk'}">
-                <b>${name}</b>
+                <div>${name}</div>
                 <div style="text-align:right">
-                    <div style="font-size:0.75rem; color:#888">Cutoff: ${cutoff}</div>
-                    <div style="font-size:0.75rem; font-weight:700; color:${isSafe?'#00b894':'#fdcb6e'}">
+                    <div style="font-size:0.75rem; opacity:0.7">Cutoff: ${cutoff}</div>
+                    <div style="font-size:0.8rem; font-weight:700; color:${isSafe?'#00b894':'#fdcb6e'}">
                         ${isSafe ? 'Safe' : 'Borderline'}
                     </div>
                 </div>
             </div>`;
     }
 
-    function triggerConfetti() {
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
+    // 6. Tools
+    function showToast(msg) {
+        var x = document.getElementById("toast");
+        x.className = "show";
+        x.innerText = msg;
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 
-    function downloadReport() {
-        const element = document.body; 
-        html2canvas(element).then(canvas => {
-            const link = document.createElement('a');
+    function triggerConfetti() {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+    }
+
+    function downloadResult() {
+        html2canvas(document.getElementById("capture-area")).then(canvas => {
+            let link = document.createElement('a');
             link.download = 'DCET_Prediction_Adithya.png';
             link.href = canvas.toDataURL();
             link.click();
+            showToast("Screenshot Saved! 📸");
         });
+    }
+
+    function shareResult() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'My DCET Prediction',
+                text: `I used Adithya's DCET Predictor! Check yours now.`,
+                url: window.location.href
+            }).then(() => showToast("Shared Successfully!"))
+              .catch((error) => console.log('Error sharing', error));
+        } else {
+            showToast("Sharing not supported on this browser.");
+        }
     }
 </script>
 
