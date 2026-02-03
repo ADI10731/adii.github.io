@@ -3,53 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCET 2026 Universe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <title>DCET Universe - Panda Edition 🐼</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
-            /* Light Theme */
-            --bg-grad: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            /* PANDA THEME (Light) */
+            --bg-color: #f7f9fc;
             --glass-bg: rgba(255, 255, 255, 0.95);
-            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.9);
             --text-main: #2d3436;
             --text-sec: #636e72;
-            --accent: #6c5ce7;
-            --accent-grad: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            --card-border: rgba(255,255,255,0.8);
-            --shadow: 0 10px 40px rgba(0,0,0,0.08);
-            --input-bg: #f1f2f6;
-            --success: #00b894;
-            --warning: #fdcb6e;
+            --accent: #00b894; /* Bamboo Green */
+            --accent-dark: #00a884;
+            --panda-black: #2d3436;
+            --card-border: rgba(0,0,0,0.05);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --input-bg: #ffffff;
+            --input-border: #dfe6e9;
             --danger: #ff7675;
+            --warning: #fdcb6e;
         }
 
         [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            --glass-bg: rgba(30, 39, 46, 0.95);
-            --nav-bg: rgba(30, 39, 46, 0.95);
+            /* PANDA THEME (Dark Mode) */
+            --bg-color: #1e1e1e; /* Soft Black */
+            --glass-bg: rgba(40, 40, 40, 0.95);
+            --nav-bg: rgba(40, 40, 40, 0.9);
             --text-main: #ffffff;
             --text-sec: #b2bec3;
-            --accent: #00d2d3;
-            --accent-grad: linear-gradient(135deg, #00d2d3 0%, #48dbfb 100%);
+            --accent: #55efc4; /* Neon Bamboo */
+            --accent-dark: #00b894;
+            --panda-black: #ffffff;
             --card-border: rgba(255,255,255,0.1);
             --shadow: 0 15px 40px rgba(0,0,0,0.6);
-            --input-bg: #1e272e;
+            --input-bg: #2d3436;
+            --input-border: #636e72;
         }
 
-        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; scroll-behavior: smooth; }
+        * { box-sizing: border-box; transition: background 0.3s, color 0.3s, border-color 0.3s; scroll-behavior: smooth; }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: var(--bg-grad);
+            background: var(--bg-color);
             margin: 0;
             padding-bottom: 80px; 
             color: var(--text-main);
             overflow-x: hidden;
+            background-image: radial-gradient(var(--accent) 1px, transparent 1px);
+            background-size: 40px 40px; /* Polka dot pattern */
         }
 
         /* --- NAVIGATION --- */
@@ -57,24 +63,24 @@
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: var(--nav-bg); backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--card-border);
-            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 12px 5%; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
-        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; }
-        .nav-logo i { background: var(--accent); color: white; padding: 8px; border-radius: 8px; }
-        
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; color: var(--panda-black); }
+        .nav-logo span { background: var(--panda-black); color: var(--bg-color); padding: 5px 10px; border-radius: 8px; }
+
         .nav-links { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 0; -ms-overflow-style: none; scrollbar-width: none; }
         .nav-links::-webkit-scrollbar { display: none; }
         
-        .nav-item { cursor: pointer; font-weight: 700; font-size: 0.85rem; color: var(--text-sec); text-decoration: none; padding: 10px 16px; border-radius: 12px; white-space: nowrap; transition: 0.2s; }
-        .nav-item:hover, .nav-item.active { background: var(--accent); color: white; transform: translateY(-2px); }
+        .nav-item { cursor: pointer; font-weight: 700; font-size: 0.85rem; color: var(--text-sec); text-decoration: none; padding: 10px 16px; border-radius: 20px; white-space: nowrap; transition: 0.2s; border: 1px solid transparent; }
+        .nav-item:hover, .nav-item.active { background: var(--panda-black); color: var(--bg-color); border-color: var(--panda-black); }
         
-        .theme-btn { cursor: pointer; font-size: 1.2rem; padding: 10px; border-radius: 50%; background: var(--input-bg); margin-left: 10px; }
+        .theme-btn { cursor: pointer; font-size: 1.2rem; padding: 8px; border-radius: 50%; background: var(--input-bg); margin-left: 10px; border: 1px solid var(--input-border); }
 
         /* Mobile Menu */
         .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
         @media (max-width: 1000px) {
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: var(--glass-bg); flex-direction: column; padding: 20px; box-shadow: var(--shadow); border-bottom: 1px solid var(--card-border); }
+            .nav-links { display: none; position: absolute; top: 65px; left: 0; width: 100%; background: var(--glass-bg); flex-direction: column; padding: 20px; box-shadow: var(--shadow); border-bottom: 1px solid var(--card-border); }
             .nav-links.active { display: flex; }
             .menu-toggle { display: block; }
         }
@@ -87,69 +93,96 @@
         .section-container.active { display: block; }
 
         .card {
-            background: var(--glass-bg); padding: 2.5rem; border-radius: 24px;
-            border: 1px solid var(--card-border); box-shadow: var(--shadow);
+            background: var(--glass-bg); padding: 2.5rem; border-radius: 30px;
+            border: 2px solid var(--card-border); box-shadow: var(--shadow);
             position: relative; overflow: hidden;
         }
 
-        h1 { text-align: center; font-weight: 900; font-size: 2.2rem; margin-bottom: 5px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { text-align: center; font-size: 0.9rem; font-weight: 700; opacity: 0.7; margin-bottom: 30px; letter-spacing: 1px; }
+        h1 { text-align: center; font-weight: 900; font-size: 2.2rem; margin-bottom: 5px; color: var(--panda-black); }
+        .subtitle { text-align: center; font-size: 0.9rem; font-weight: 700; opacity: 0.6; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- PREDICTOR STYLES --- */
+        /* --- INPUTS --- */
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
         @media (max-width: 600px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
 
         label { font-size: 0.85rem; font-weight: 700; color: var(--text-sec); display: block; margin-bottom: 8px; }
         input, select {
-            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            width: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--input-border);
             background: var(--input-bg); color: var(--text-main); font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
         }
-        input:focus { outline: 2px solid var(--accent); background: var(--glass-bg); }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.1); }
 
         .primary-btn {
-            width: 100%; padding: 18px; border: none; border-radius: 14px;
-            background: var(--accent-grad); color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+            width: 100%; padding: 18px; border: none; border-radius: 16px;
+            background: var(--panda-black); color: var(--bg-color); font-size: 1.1rem; font-weight: 800; cursor: pointer;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-top: 20px; transition: transform 0.2s;
         }
-        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
-        .primary-btn i { margin-left: 8px; }
+        .primary-btn:hover { transform: translateY(-3px); background: var(--accent-dark); color: white; }
+        
+        /* High Visibility Button for College Link */
+        .glow-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
         /* --- COLLEGE PREDICTOR --- */
         .college-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .branch-column { background: var(--input-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--card-border); }
-        .branch-head { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        .branch-column { background: var(--input-bg); border-radius: 20px; padding: 20px; border: 1px solid var(--input-border); }
+        .branch-head { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.05); }
         
         .clg-card { 
-            background: var(--glass-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px; 
-            border-left: 5px solid #ccc; transition: 0.2s; position: relative;
+            background: var(--glass-bg); padding: 18px; border-radius: 16px; margin-bottom: 15px; 
+            border: 1px solid var(--card-border); transition: 0.2s; position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
-        .clg-card:hover { transform: translateX(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .clg-safe { border-left-color: var(--success); }
-        .clg-mod { border-left-color: var(--warning); }
-        .clg-amb { border-left-color: var(--danger); opacity: 0.8; }
-
+        .clg-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        
         .prob-badge {
-            position: absolute; top: 10px; right: 10px; font-size: 0.75rem; 
-            font-weight: 800; padding: 4px 8px; border-radius: 6px;
+            position: absolute; top: 12px; right: 12px; font-size: 0.75rem; 
+            font-weight: 800; padding: 4px 10px; border-radius: 20px;
         }
 
         /* --- COUNSELING GRID --- */
-        .counseling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .counseling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         .doc-card {
-            background: var(--input-bg); padding: 25px; border-radius: 16px; text-align: center;
+            background: var(--input-bg); padding: 25px; border-radius: 20px; text-align: center;
             text-decoration: none; color: var(--text-main); border: 2px solid transparent; transition: 0.3s;
             display: flex; flex-direction: column; align-items: center; height: 100%;
         }
         .doc-card:hover { border-color: var(--accent); transform: translateY(-5px); background: var(--glass-bg); }
-        .doc-icon { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); background: rgba(108, 92, 231, 0.1); padding: 15px; border-radius: 50%; }
-        .doc-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
-        .doc-desc { font-size: 0.85rem; opacity: 0.7; }
+        .doc-icon { font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); background: rgba(0, 184, 148, 0.1); padding: 15px; border-radius: 50%; }
+        .doc-title { font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+
+        /* --- CREATOR CARD (Stylized) --- */
+        .creator-card {
+            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
+            color: white; padding: 3rem; border-radius: 30px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .creator-img {
+            width: 120px; height: 120px; border-radius: 50%; background: white; margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            border: 5px solid var(--accent);
+        }
+        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+        .social-btn {
+            width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            color: white; text-decoration: none; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .social-btn:hover { background: var(--accent); transform: scale(1.1) rotate(10deg); color: #000; }
+        
+        .bg-deco { position: absolute; font-size: 15rem; opacity: 0.05; font-weight: 900; }
+        .bg-top { top: -50px; left: -50px; }
+        .bg-bot { bottom: -50px; right: -50px; }
 
         /* --- RANK DISPLAY --- */
-        #rank-display-area { display: none; text-align: center; margin-top: 30px; padding: 30px; background: var(--input-bg); border-radius: 20px; border: 2px solid var(--accent); }
-        .rank-big { font-size: 3.5rem; font-weight: 900; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+        #rank-display-area { display: none; text-align: center; margin-top: 30px; padding: 30px; background: var(--input-bg); border-radius: 24px; border: 2px solid var(--accent); }
+        .rank-big { font-size: 4rem; font-weight: 900; color: var(--accent); margin: 10px 0; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -158,16 +191,17 @@
 
     <nav class="navbar">
         <div class="nav-logo">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>DCET 2026</span>
+            <span>🐼 DCET</span> Universe
         </div>
         <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <div class="nav-links" id="navLinks">
             <div class="nav-item active" onclick="showSection('predictor')">Rank Predictor</div>
-            <div class="nav-item" onclick="showSection('counseling')">Counseling Process</div>
+            <div class="nav-item" onclick="showSection('counseling')">Counseling</div>
             <div class="nav-item" onclick="showSection('college-predictor')">College Finder</div>
+            <div class="nav-item" onclick="showSection('courses')">Courses</div>
+            <div class="nav-item" onclick="showSection('top50')">Top 50</div>
             <div class="nav-item" onclick="showSection('study')">Study Material</div>
-            <div class="nav-item" onclick="showSection('top50')">Top Colleges</div>
+            <div class="nav-item" onclick="showSection('about')">Creator 👨‍💻</div>
             <div class="nav-item" onclick="showSection('ai-help')">AI Help 🤖</div>
         </div>
         <div class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></div>
@@ -175,7 +209,7 @@
 
     <div id="predictor" class="section-container active">
         <div class="card">
-            <h1>DCET RANK AND COLLEGE PREDICTOR</h1>
+            <h1>RANK PREDICTOR</h1>
             <div class="subtitle">TRAINED BY ADITHYA 😎</div>
 
             <div class="input-grid">
@@ -200,8 +234,8 @@
                 <div class="rank-big" id="rank-val">---</div>
                 <div style="font-size:1.1rem; margin-bottom:20px;">Merit Score: <b id="merit-val" style="color:var(--accent);">0.00</b></div>
                 
-                <button class="primary-btn" style="width:auto; padding:12px 25px; margin:0; background: var(--accent-grad); color: white !important;" onclick="goToCollegePredictor()">
-                    See Eligible Colleges &rarr;
+                <button class="primary-btn glow-btn" style="width:auto; padding:12px 30px; margin:0;" onclick="goToCollegePredictor()">
+                    See Eligible Colleges <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         </div>
@@ -209,34 +243,34 @@
 
     <div id="counseling" class="section-container">
         <div class="card">
-            <h1>COUNSELING PROCESS</h1>
-            <div class="subtitle">Essential Documents & Links for 2025-26</div>
+            <h1>COUNSELING HUB</h1>
+            <div class="subtitle">Official Documents & Links</div>
             
             <div class="counseling-grid">
                 <a href="https://www.tttacademics.com/files/pdfs/static/Draft%20seat%20matrix.pdf" target="_blank" class="doc-card">
-                    <div class="doc-icon"><i class="fa-solid fa-table-list"></i></div>
+                    <div class="doc-icon"><i class="fa-solid fa-table-cells"></i></div>
                     <div class="doc-title">Seat Matrix</div>
-                    <div class="doc-desc">Check available seats per college</div>
+                    <div class="doc-desc">Draft 2025 PDF</div>
                 </a>
                 <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/dcet_2025_result_r_english.pdf" target="_blank" class="doc-card">
                     <div class="doc-icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <div class="doc-title">Prev. Year Cutoff</div>
-                    <div class="doc-desc">Official 2025 Rank Cutoffs</div>
-                </a>
-                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/Document_Verification_Centers_Listenglish.pdf" target="_blank" class="doc-card">
-                    <div class="doc-icon"><i class="fa-solid fa-building-circle-check"></i></div>
-                    <div class="doc-title">Verification Centers</div>
-                    <div class="doc-desc">List of Offline Centers</div>
+                    <div class="doc-title">Previous Cutoff</div>
+                    <div class="doc-desc">2025 Rank List</div>
                 </a>
                 <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/DRESSCODE_KEA_KAN_2025english.pdf" target="_blank" class="doc-card">
                     <div class="doc-icon"><i class="fa-solid fa-shirt"></i></div>
-                    <div class="doc-title">Exam Dress Code</div>
-                    <div class="doc-desc">Strict KEA Guidelines</div>
+                    <div class="doc-title">Dress Code</div>
+                    <div class="doc-desc">Exam Hall Rules</div>
+                </a>
+                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/Document_Verification_Centers_Listenglish.pdf" target="_blank" class="doc-card">
+                    <div class="doc-icon"><i class="fa-solid fa-building-circle-check"></i></div>
+                    <div class="doc-title">Verify Centers</div>
+                    <div class="doc-desc">Document Check</div>
                 </a>
                 <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/Bell_Timings_Diploma_2025_englishenglish.pdf" target="_blank" class="doc-card">
                     <div class="doc-icon"><i class="fa-regular fa-clock"></i></div>
                     <div class="doc-title">Bell Timings</div>
-                    <div class="doc-desc">Exam Hall Schedule</div>
+                    <div class="doc-desc">Exam Schedule</div>
                 </a>
                 <a href="https://www.tttacademics.com/files/pdfs/static/DCET%20Course%20Code.pdf" target="_blank" class="doc-card">
                     <div class="doc-icon"><i class="fa-solid fa-list-ol"></i></div>
@@ -246,7 +280,7 @@
                 <a href="https://www.tttacademics.com/files/pdfs/static/DCET%20-25%20tentative%20Fees.pdf" target="_blank" class="doc-card">
                     <div class="doc-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
                     <div class="doc-title">College Fees</div>
-                    <div class="doc-desc">Tentative Fee Structure</div>
+                    <div class="doc-desc">Fee Structure</div>
                 </a>
             </div>
         </div>
@@ -255,13 +289,13 @@
     <div id="college-predictor" class="section-container">
         <div class="card">
             <h1>COLLEGE FINDER</h1>
-            <div class="subtitle">With Win Probability</div>
+            <div class="subtitle">With Win Probability %</div>
             
             <div style="background:var(--input-bg); padding:20px; border-radius:16px; margin-bottom:30px; text-align:center;">
                 <label>Enter Your Rank</label>
                 <div style="display:flex; gap:10px; max-width:400px; margin:10px auto;">
                     <input type="number" id="cp-rank" placeholder="e.g. 150">
-                    <button class="primary-btn" style="margin:0; width:auto;" onclick="runCollegePredictor()">Find</button>
+                    <button class="primary-btn" style="margin:0; width:auto;" onclick="runCollegePredictor()">Search</button>
                 </div>
             </div>
 
@@ -282,9 +316,32 @@
         </div>
     </div>
 
+    <div id="about" class="section-container">
+        <div class="creator-card">
+            <div class="bg-deco bg-top">🐼</div>
+            <div class="bg-deco bg-bot">🚀</div>
+            
+            <div class="creator-img">👨‍💻</div>
+            <h1 style="color:white; margin-bottom:5px;">Hi, I'm Adithya (Adii)</h1>
+            <p style="opacity:0.8; font-size:1.1rem;">E&C Diploma Student • Karnataka</p>
+            <p style="max-width:600px; margin:20px auto; line-height:1.6;">
+                I’m a tech enthusiast passionate about creating tools that make learning easier. 
+                I built this <b>DCET Universe</b> to help diploma students estimate ranks and find the best engineering colleges.
+            </p>
+            
+            <h3 style="margin-top:30px;">Let's Connect!</h3>
+            <div class="social-links">
+                <a href="mailto:akkulkarni10730@gmail.com" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://t.me/Adiitrendz" target="_blank" class="social-btn" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="https://instagram.com/thyaida" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://t.me/dcet26" target="_blank" class="social-btn" title="DCET Group"><i class="fa-solid fa-users"></i></a>
+            </div>
+        </div>
+    </div>
+
     <div id="ai-help" class="section-container">
         <div class="card">
-            <h1>AI COMMAND CENTER</h1>
+            <h1>AI ASSISTANT</h1>
             <div class="subtitle">Smart Tools for Study</div>
             <div class="counseling-grid">
                 <a href="https://gemini.google.com/" target="_blank" class="doc-card">
@@ -311,37 +368,14 @@
         </div>
     </div>
 
-    <div id="study" class="section-container">
-        <div class="card">
-            <h1>STUDY ZONE</h1>
-            <div class="subtitle">Resources & Links</div>
-            <div class="counseling-grid">
-                <a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/dcet_attachmentkannada.pdf" target="_blank" class="doc-card">
-                    <div class="doc-icon"><i class="fa-solid fa-file-pdf"></i></div>
-                    <div class="doc-title">Official Syllabus</div>
-                </a>
-                <a href="https://drive.google.com/drive/folders/1dSVWAgyCqh_ZWZReRiWrNcdAvTfjEiiH" target="_blank" class="doc-card">
-                    <div class="doc-icon"><i class="fa-solid fa-book-open"></i></div>
-                    <div class="doc-title">Notes Archive</div>
-                </a>
-                <a href="https://drive.google.com/drive/folders/1a3TzS4Jqi_bxzHChLWLnTzk5OgOSdt97" target="_blank" class="doc-card">
-                    <div class="doc-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                    <div class="doc-title">Handwritten Notes</div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div id="top50" class="section-container">
-        <div class="card">
-            <h1>TOP 50 COLLEGES</h1>
-            <div class="subtitle">Scroll to explore</div>
-            <div id="top-50-list" style="height:400px; overflow-y:auto; padding-right:10px;"></div>
-        </div>
-    </div>
+    <div id="study" class="section-container"><div class="card"><h1>STUDY ZONE</h1><div class="subtitle">Official Syllabus</div><div class="counseling-grid"><a href="https://cetonline.karnataka.gov.in/keawebentry456/dcet2025/dcet_attachmentkannada.pdf" target="_blank" class="doc-card"><div class="doc-icon"><i class="fa-solid fa-file-pdf"></i></div><div class="doc-title">Syllabus PDF</div></a></div></div></div>
+    <div id="courses" class="section-container"><div class="card"><h1>COURSES</h1><div class="subtitle">Engineering Branches</div><div class="college-grid"><div class="doc-card"><div class="doc-title">CSE</div></div><div class="doc-card"><div class="doc-title">ECE</div></div><div class="doc-card"><div class="doc-title">AIML</div></div></div></div></div>
+    <div id="top50" class="section-container"><div class="card"><h1>TOP 50</h1><div class="subtitle">List of Best Colleges</div><div id="top-50-list" style="height:300px; overflow-y:auto;"></div></div></div>
 
 <script>
-    // --- NAVIGATION LOGIC ---
+    // --- APP LOGIC ---
+
+    // 1. Navigation
     function showSection(id) {
         document.querySelectorAll('.section-container').forEach(el => el.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -350,9 +384,7 @@
         if(window.innerWidth < 1000) document.getElementById('navLinks').classList.remove('active');
         window.scrollTo(0, 0);
     }
-
     function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-
     function toggleTheme() {
         const body = document.body;
         const icon = document.getElementById('theme-icon');
@@ -365,7 +397,7 @@
         }
     }
 
-    // --- DATA ---
+    // 2. Data
     const colleges = [
         { name: "RV College (RVCE)", cse: 54, aiml: 42, ec: 49 },
         { name: "MSRIT Bangalore", cse: 145, aiml: 245, ec: 103 },
@@ -373,9 +405,8 @@
         { name: "UVCE Bangalore", cse: 137, aiml: 133, ec: 212 },
         { name: "BMSCE Basavanagudi", cse: 450, aiml: 690, ec: 110 },
         { name: "Dr. Ambedkar (AIT)", cse: 688, aiml: 1578, ec: 1243 },
-        { name: "Dayananda Sagar (DSCE)", cse: 852, aiml: 707, ec: 954 },
+        { name: "Dayananda Sagar", cse: 852, aiml: 707, ec: 954 },
         { name: "Bangalore Inst. Tech", cse: 867, aiml: 951, ec: 1276 },
-        { name: "BMS Inst. Tech", cse: 1708, aiml: 1945, ec: 1332 },
         { name: "Nitte Meenakshi", cse: 1649, aiml: 1389, ec: 2371 },
         { name: "Sir MVIT", cse: 2073, aiml: 2708, ec: 5264 },
         { name: "RNSIT", cse: 1824, aiml: 2390, ec: 2239 },
@@ -399,7 +430,7 @@
         { min: 67.9, label: "1750 - 3000", val: 3000 }, { min: 0, label: "3000+", val: 5000 }
     ];
 
-    // --- LOGIC ---
+    // 3. Logic
     function toPercent() {
         let v = parseFloat(document.getElementById('cgpa').value);
         if(!isNaN(v)) document.getElementById('percent').value = ((v * 10) - 7.5).toFixed(2);
@@ -412,18 +443,14 @@
     function predictRank() {
         let p = parseFloat(document.getElementById('percent').value);
         let m = parseFloat(document.getElementById('marks').value);
-        if(isNaN(p) || isNaN(m)) { alert("Please enter valid details!"); return; }
+        if(isNaN(p) || isNaN(m)) { alert("Enter Valid Data!"); return; }
 
         let merit = (p/2) + (m/2);
         let rankLabel = "5000+";
         let rankVal = 5000;
 
         for(let r of ranges) {
-            if(merit >= r.min) {
-                rankLabel = r.label;
-                rankVal = r.val;
-                break;
-            }
+            if(merit >= r.min) { rankLabel = r.label; rankVal = r.val; break; }
         }
 
         document.getElementById('rank-val').innerText = rankLabel;
@@ -441,7 +468,7 @@
 
     function runCollegePredictor() {
         let rank = parseInt(document.getElementById('cp-rank').value);
-        if(isNaN(rank)) { alert("Enter a rank first!"); return; }
+        if(isNaN(rank)) { alert("Enter Rank!"); return; }
 
         let cseH="", aimlH="", ecH="";
         colleges.forEach(c => {
@@ -450,9 +477,9 @@
             ecH += getCard(c.name, c.ec, rank);
         });
 
-        document.getElementById('cp-cse').innerHTML = cseH || "<small>No safe colleges found.</small>";
-        document.getElementById('cp-aiml').innerHTML = aimlH || "<small>No safe colleges found.</small>";
-        document.getElementById('cp-ec').innerHTML = ecH || "<small>No safe colleges found.</small>";
+        document.getElementById('cp-cse').innerHTML = cseH || "<small>No safe colleges.</small>";
+        document.getElementById('cp-aiml').innerHTML = aimlH || "<small>No safe colleges.</small>";
+        document.getElementById('cp-ec').innerHTML = ecH || "<small>No safe colleges.</small>";
     }
 
     function getCard(name, cutoff, rank) {
@@ -463,18 +490,14 @@
         let color = "#00b894";
         let prob = 0;
 
-        // Probability Calculation logic
         if(rank <= cutoff) {
              cls += " clg-safe"; status = "Safe"; color = "#00b894";
-             // 90% to 99% based on how low rank is compared to cutoff
              prob = 90 + Math.round(((cutoff - rank)/cutoff) * 9); 
         } else if(rank <= cutoff * 1.15) {
              cls += " clg-mod"; status = "Borderline"; color = "#fdcb6e";
-             // 40% to 60%
              prob = 40 + Math.round(((cutoff * 1.15 - rank)/(cutoff * 0.15)) * 20);
         } else {
              cls += " clg-amb"; status = "Ambitious"; color = "#ff7675";
-             // < 20%
              prob = Math.max(1, 20 - Math.round(((rank - cutoff * 1.15)/rank) * 100));
         }
 
@@ -491,36 +514,12 @@
         </div>`;
     }
 
-    // --- TOP 50 LIST GENERATOR ---
-    const topCollegesList = [
-        "RV College of Engineering (RVCE)", "BMS College of Engineering (BMSCE)", "PES University (PESU) - RR", "MS Ramaiah (MSRIT)", "UVCE Bangalore",
-        "Bangalore Institute of Technology (BIT)", "Dayananda Sagar (DSCE)", "NIE Mysore", "SJCE Mysore (JSS)", "PES University (EC Campus)",
-        "BMS Institute of Tech (BMSIT)", "Nitte Meenakshi (NMIT)", "RNS Institute of Tech (RNSIT)", "Sir M Visvesvaraya (Sir MVIT)", "JSS Academy (JSSATE)",
-        "BNM Institute (BNMIT)", "Siddaganga (SIT) Tumkur", "New Horizon (NHCE)", "CMR Institute (CMRIT)", "Acharya Institute (AIT)",
-        "Global Academy (GAT)", "MVJ College of Engineering", "Reva University", "KLE Tech University Hubli", "Sahyadri Mangalore",
-        "Canara Engineering College", "St. Joseph Engineering College", "Vidya Vikas Mysore", "Malnad College (MCE) Hassan", "PDA College Gulbarga",
-        "Basaveshwar Engg College (BEC)", "SDM Dharwad", "Oxford College", "Cambridge Institute", "East West Institute",
-        "City Engineering College", "Dr. AIT", "Sapthagiri College", "KS Institute (KSIT)", "Don Bosco Institute",
-        "Atria Institute", "HKBK College", "Presidency University", "Alliance University", "Jain University",
-        "Christ University", "SJBIT Bangalore", "GSSS Mysore", "Bapuji Davanagere", "UBDT Davanagere"
-    ];
-
-    const listContainer = document.getElementById('top-50-list');
-    let listHTML = "";
-    topCollegesList.forEach((name, index) => {
-        listHTML += `
-        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:15px; margin-bottom:10px; border-radius:12px;">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <div style="font-size:1.2rem; font-weight:900; color:var(--accent); min-width:40px;">#${index + 1}</div>
-                <div style="font-weight:600;">${name}</div>
-            </div>
-            <div style="color:var(--text-sec);"><i class="fa-solid fa-angle-right"></i></div>
-        </div>`;
-    });
-    listContainer.innerHTML = listHTML;
-
+    // Top 50 List Filler
+    const top50 = ["RVCE", "BMSCE", "PESU", "MSRIT", "UVCE", "BIT", "DSCE", "NIE", "JSS", "PES-EC", "BMSIT", "NMIT", "RNSIT", "MVIT", "JSSATE", "BNMIT", "SIT", "NHCE", "CMRIT", "AIT", "GAT", "MVJ", "REVA", "KLE", "Sahyadri", "Canara", "SJEC", "VVCE", "MCE", "PDA", "BEC", "SDM", "Oxford", "Cambridge", "East West", "City Engg", "Dr.AIT", "Sapthagiri", "KSIT", "DBIT", "Atria", "HKBK", "Presidency", "Alliance", "Jain", "Christ", "SJBIT", "GSSS", "Bapuji", "UBDT"];
+    let tList = "";
+    top50.forEach((n, i) => { tList += `<div style="padding:10px; border-bottom:1px solid #eee;"><b>#${i+1}</b> ${n}</div>`; });
+    document.getElementById('top-50-list').innerHTML = tList;
 </script>
 
 </body>
 </html>
-
