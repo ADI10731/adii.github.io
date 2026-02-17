@@ -527,18 +527,58 @@
         { name: "Vidya Vikas Mysore", cse: 4828, aiml: 6000, ec: 3514 }
     ];
 
+    // UPDATED DATA SET
     const ranges = [
-        { min: 91.8, label: "1 - 10", val: 10 }, { min: 90.6, label: "11 - 20", val: 20 },
-        { min: 89.98, label: "21 - 30", val: 30 }, { min: 89.5, label: "31 - 40", val: 40 },
-        { min: 89.1, label: "41 - 50", val: 50 }, { min: 89.0, label: "51 - 60", val: 60 },
-        { min: 88.3, label: "61 - 70", val: 70 }, { min: 88.0, label: "71 - 80", val: 80 },
-        { min: 87.8, label: "81 - 90", val: 90 }, { min: 87.6, label: "91 - 100", val: 100 },
-        { min: 86.9, label: "100 - 125", val: 125 }, { min: 86.5, label: "126 - 150", val: 150 },
-        { min: 86.2, label: "151 - 175", val: 175 }, { min: 85.5, label: "176 - 200", val: 200 },
-        { min: 84.6, label: "200 - 250", val: 250 }, { min: 84.0, label: "250 - 300", val: 300 },
-        { min: 82.7, label: "300 - 400", val: 400 }, { min: 81.5, label: "400 - 500", val: 500 },
-        { min: 79.6, label: "500 - 750", val: 750 }, { min: 75.6, label: "1000 - 1250", val: 1250 },
-        { min: 67.9, label: "1750 - 3000", val: 3000 }, { min: 0, label: "3000+", val: 5000 }
+        { min: 91.8, max: 100, range: "1 - 10" },
+        { min: 90.6, max: 91.79, range: "11 - 20" },
+        { min: 89.98, max: 90.59, range: "21 - 30" },
+        { min: 89.5, max: 89.97, range: "31 - 40" },
+        { min: 89.1, max: 89.49, range: "41 - 50" },
+        { min: 89.0, max: 89.09, range: "51 - 60" },
+        { min: 88.3, max: 88.99, range: "61 - 70" },
+        { min: 88.0, max: 88.29, range: "71 - 80" },
+        { min: 87.8, max: 87.99, range: "81 - 90" },
+        { min: 87.6, max: 87.79, range: "91 - 100" },
+        { min: 86.9, max: 87.59, range: "101 - 125" },
+        { min: 86.5, max: 86.89, range: "126 - 150" },
+        { min: 86.2, max: 86.49, range: "151 - 175" },
+        { min: 85.5, max: 86.19, range: "176 - 200" },
+        { min: 84.6, max: 85.49, range: "201 - 250" },
+        { min: 84.0, max: 84.59, range: "251 - 300" },
+        { min: 83.65, max: 83.99, range: "301 - 350" },
+        { min: 82.7, max: 83.64, range: "351 - 400" },
+        { min: 82.2, max: 82.69, range: "401 - 450" },
+        { min: 81.5, max: 82.19, range: "451 - 500" },
+        { min: 80.55, max: 81.49, range: "501 - 625" },
+        { min: 79.6, max: 80.54, range: "626 - 750" },
+        { min: 78.49, max: 79.59, range: "751 - 875" },
+        { min: 77.6, max: 78.5, range: "875 - 1000" },
+        { min: 76.6, max: 77.59, range: "1001 - 1125" },
+        { min: 75.6, max: 76.59, range: "1125 - 1250" },
+        { min: 74.92, max: 75.59, range: "1251 - 1375" },
+        { min: 74.25, max: 74.91, range: "1375 - 1500" },
+        { min: 73.37, max: 74.24, range: "1501 - 1625" },
+        { min: 72.5, max: 73.36, range: "1626 - 1750" },
+        { min: 71.99, max: 72.49, range: "1751 - 1875" },
+        { min: 71.5, max: 71.98, range: "1876 - 2000" },
+        { min: 69.69, max: 71.49, range: "2001 - 2500" },
+        { min: 67.9, max: 69.68, range: "2501 - 3000" },
+        { min: 66.42, max: 67.89, range: "3001 - 3500" },
+        { min: 64.95, max: 66.41, range: "3501 - 4000" },
+        { min: 63.62, max: 64.94, range: "4001 - 4500" },
+        { min: 62.3, max: 63.61, range: "4501 - 5000" },
+        { min: 61.2, max: 62.29, range: "5001 - 5500" },
+        { min: 60.2, max: 61.19, range: "5501 - 6000" },
+        { min: 59.25, max: 60.19, range: "6001 - 6500" },
+        { min: 58.3, max: 59.24, range: "6501 - 7000" },
+        { min: 57.64, max: 58.29, range: "7001 - 7500" },
+        { min: 56.0, max: 57.63, range: "7501 - 8000" },
+        { min: 55.24, max: 56.99, range: "8001 - 9000" },
+        { min: 53.5, max: 55.23, range: "9001 - 10000" },
+        { min: 51.76, max: 53.49, range: "10000 - 11000" },
+        { min: 49.9, max: 51.75, range: "11000 - 12000" },
+        { min: 47.89, max: 49.89, range: "12001 - 13000" },
+        { min: 45.63, max: 47.88, range: "13001 - 14000" }
     ];
 
     // 3. Logic
@@ -557,12 +597,25 @@
         if(isNaN(p) || isNaN(m)) { alert("Enter Valid Data!"); return; }
 
         let merit = (p/2) + (m/2);
-        let rankLabel = "5000+";
-        let rankVal = 5000;
+        let rankLabel = "14000+";
+        let rankVal = 15000;
 
         for(let r of ranges) {
-            if(merit >= r.min) { rankLabel = r.label; rankVal = r.val; break; }
+            if(merit >= r.min && merit <= r.max) { 
+                rankLabel = r.range; 
+                // Extract upper bound rank for safe prediction
+                let parts = r.range.split('-');
+                if(parts.length > 1) {
+                    rankVal = parseInt(parts[1].trim());
+                } else {
+                    rankVal = parseInt(parts[0].trim());
+                }
+                break; 
+            }
         }
+        
+        // Handle logic if merit is above 100 (unlikely but possible)
+        if(merit > 100) { rankLabel = "1 - 10"; rankVal = 1; }
 
         document.getElementById('rank-val').innerText = rankLabel;
         document.getElementById('merit-val').innerText = merit.toFixed(2);
@@ -601,15 +654,15 @@
         let color = "#00b894";
         let prob = 0;
 
-        if(rank <= cutoff) {
-             cls += " clg-safe"; status = "Safe"; color = "#00b894";
-             prob = 90 + Math.round(((cutoff - rank)/cutoff) * 9); 
-        } else if(rank <= cutoff * 1.15) {
-             cls += " clg-mod"; status = "Borderline"; color = "#fdcb6e";
-             prob = 40 + Math.round(((cutoff * 1.15 - rank)/(cutoff * 0.15)) * 20);
-        } else {
-             cls += " clg-amb"; status = "Ambitious"; color = "#ff7675";
-             prob = Math.max(1, 20 - Math.round(((rank - cutoff * 1.15)/rank) * 100));
+        if(rank <= cutoff) { 
+            cls += " clg-safe"; status = "Safe"; color = "#00b894"; 
+            prob = 90 + Math.round(((cutoff - rank)/cutoff) * 9); 
+        } else if(rank <= cutoff * 1.15) { 
+            cls += " clg-mod"; status = "Borderline"; color = "#fdcb6e"; 
+            prob = 40 + Math.round(((cutoff * 1.15 - rank)/(cutoff * 0.15)) * 20);
+        } else { 
+            cls += " clg-amb"; status = "Ambitious"; color = "#ff7675"; 
+            prob = Math.max(1, 20 - Math.round(((rank - cutoff * 1.15)/rank) * 100));
         }
         if(prob > 99) prob = 99;
 
@@ -657,6 +710,5 @@
     listContainer.innerHTML = listHTML;
 
 </script>
-
 </body>
 </html>
